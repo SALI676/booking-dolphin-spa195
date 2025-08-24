@@ -1,0 +1,2711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dolphin Spa - Your Tranquil Escape</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for star icons and social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2canvas library for capturing DOM elements as images -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfbfb;
+            /* Very light background */
+            color: #333;
+            /* Darker text for professionalism */
+            min-height: 100vh;
+            /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            /* Elegant font for headings */
+        }
+
+        /* Custom class for a more pronounced, elegant shadow for cards */
+        .card-shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card-shadow-lg:hover {
+            transform: translateY(-5px);
+            /* Subtle lift on hover */
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1), 0 6px 12px -3px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Gradient button for a professional look */
+        .btn-gradient {
+            background-image: linear-gradient(to right, #545120 0%, #7d7936 100%);
+            /* Changed to new color */
+            transition: all 0.3s ease-in-out;
+            border: none;
+            /* Ensure no default border */
+        }
+
+        .btn-gradient:hover {
+            background-position: right center;
+            /* Moves the gradient on hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-gradient:active {
+            transform: translateY(1px);
+            /* Slight press effect */
+        }
+
+        /* Navigation link hover effect */
+        .nav-link-hover {
+            position: relative;
+        }
+
+        .nav-link-hover:hover {
+            color: #8c884e;
+            /* Lighter shade for hover */
+        }
+
+        .nav-link-hover::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #8c884e;
+            transition: width .3s;
+            position: absolute;
+            bottom: -5px;
+            /* Adjust position relative to text */
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .nav-link-hover:hover::after {
+            width: 100%;
+        }
+
+        /* Active menu item styling */
+        .menu a.active {
+            font-weight: bold;
+            color: #8c884e;
+        }
+
+        .menu a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            /* Fully active underline */
+            height: 3px;
+            background-color: #8c884e;
+            border-radius: 2px;
+            animation: slideIn 0.3s ease forwards;
+            position: absolute;
+            bottom: -5px;
+            /* Adjust position relative to text */
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Darker overlay */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+            /* Allows clicks to pass through when hidden */
+        }
+
+        .modal.show {
+            display: flex;
+            /* Use flex to center content */
+            opacity: 1;
+            pointer-events: all;
+            /* Enable clicks when shown */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            /* More pronounced shadow */
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+            /* Needed for close button positioning */
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* Sub-menu styling for desktop */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #545120;
+            /* Match header color */
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            top: 100%;
+            /* Position below the parent link */
+            left: 0;
+            /* Align with parent link */
+            padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #7d7936;
+            /* Lighter shade on hover */
+        }
+
+        /* Responsive menu specific styles */
+        @media (max-width: 767px) {
+
+            /* The .menu class for mobile will now be controlled purely by JS toggling 'hidden' */
+            .menu a {
+                padding: 0.8rem;
+                margin-bottom: 0.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                /* Separator */
+                width: auto;
+                /* Allow full width for mobile links */
+            }
+
+            .menu a:last-child {
+                border-bottom: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                /* Show hamburger icon */
+            }
+
+            /* Hide desktop menu items on mobile */
+            #menuListDesktop {
+                display: none;
+            }
+
+            /* Mobile Sub-menu Styling */
+            .mobile-dropdown-toggle {
+                display: block;
+                /* Ensure the caret is visible */
+                cursor: pointer;
+            }
+
+            .mobile-submenu {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+                background-color: rgba(0, 0, 0, 0.2);
+                /* Slightly darker background for sub-menu */
+            }
+
+            .mobile-submenu.show {
+                max-height: 200px;
+                /* Adjust as needed for content height */
+                transition: max-height 0.3s ease-in;
+            }
+
+            .mobile-submenu a {
+                padding-left: 2rem;
+                /* Indent sub-menu items */
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            /* Show desktop menu items on desktop */
+            #menuListDesktop {
+                display: flex !important;
+                /* Override `hidden` class */
+            }
+
+            /* Hide mobile menu toggle and menu on desktop */
+            .menu-toggle,
+            #menuListMobile {
+                display: none !important;
+            }
+        }
+
+        /* Hero section height for different screen sizes */
+        .hero-height {
+            height: 300px;
+            /* Default for small screens */
+        }
+
+        @media (min-width: 640px) {
+
+            /* sm */
+            .hero-height {
+                height: 384px;
+                /* sm:h-96 */
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            /* md */
+            .hero-height {
+                height: 450px;
+                /* md:h-[450px] */
+            }
+        }
+
+        @media (min-width: 1024px) {
+
+            /* lg */
+            .hero-height {
+                height: 500px;
+                /* lg:h-[500px] */
+            }
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #545120;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+            display: none;
+            /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-spinner.show {
+            display: block;
+        }
+
+        /* Testimonials specific styles */
+        .star-rating {
+            display: inline-block;
+            direction: rtl;
+            /* Stars right to left */
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            /* Grey for unselected stars */
+            font-size: 30px;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input[type="radio"]:checked~label {
+            color: #ffc107;
+            /* Gold for selected and hovered stars */
+        }
+
+        .rating-bar {
+            height: 15px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background-color: #545120;
+            /* Changed to new color */
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
+        }
+
+        .loading-spinner-small {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #545120;
+            border-radius: 50%;
+            width: 18px;
+            /* Smaller size */
+            height: 18px;
+            /* Smaller size */
+            animation: spin 1s linear infinite;
+            display: none;
+            /* Hidden by default */
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen">
+
+    <header class="bg-gradient-to-r from-[#545120] to-[#545120] shadow-xl rounded-b-xl mb-12 text-white">
+        <nav class="flex items-center px-6 py-5">
+            <!-- Logo Left -->
+            <div class="flex items-center">
+                <img src="https://i.postimg.cc/X7pG7ts0/photo-2025-04-09-13-39-08.jpg" alt="Dolphin Spa Logo"
+                    class="h-20 w-20 rounded-full mr-4 shadow-md bg-[#808000] p-0.5">
+                <span class="text-2xl font-extrabold tracking-wider">Dolphin Spa</span>
+            </div>
+            <div class="md:hidden text-3xl cursor-pointer ml-auto" onclick="toggleMenu()">☰</div>
+
+            <ul class="hidden md:flex  justify-center md:justify-end space-x-10 lg:space-x-50 text-lg font-medium"
+                id="menuListDesktop">
+                <li class="pl-10"><a href="#homeSection" class="nav-link-hover p-2 tab active" id="homeTab"
+                        data-i18n="home">Home</a>
+                </li>
+                <li><a href="#aboutSection" class="nav-link-hover p-2 tab" id="aboutTab" data-i18n="aboutUs">About
+                        Us</a>
+                </li>
+                <li><a href="#trainingSection" class="nav-link-hover p-2 tab" id="trainingTab"
+                        data-i18n="ourTraining">Our Training</a></li>
+                <li><a href="#servicesSection" class="nav-link-hover p-2 tab" id="servicesTab"
+                        data-i18n="services">Services</a>
+                </li>
+                <li><a href="#viewBookingsSection" class="nav-link-hover p-2 tab" id="viewBookingsTab"
+                        data-i18n="yourBookings">Your Bookings</a></li>
+                <li><a href="#testimonialsSection" class="nav-link-hover p-2 tab" id="testimonialsTab"
+                        data-i18n="testimonials">Testimonials</a></li>
+                <li><a href="#contactSection" class="nav-link-hover p-2 tab" id="contactTab"
+                        data-i18n="contactUs">Contact Us</a></li>
+                <!-- Language Selector for Desktop -->
+                <li>
+                    <div class="flex items-center">
+                        <label for="languageSelectDesktop" class="sr-only" data-i18n="language">Language</label>
+                        <select id="languageSelectDesktop"
+                            class="bg-[#545120] text-white p-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-[#545120] cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="km">ភាសាខ្មែរ</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="menu hidden md:hidden bg-[#545120] text-white shadow-lg rounded-b-xl py-4 transition-all duration-300 ease-in-out z-50 right-0 absolute w-full left-0 top-20"
+                id="menuListMobile">
+                <li><a href="#homeSection" class="block px-6 py-3 nav-link-hover tab active" id="homeTabMobile"
+                        data-i18n="home">Home</a></li>
+                <li><a href="#aboutSection" class="block px-6 py-3 nav-link-hover tab" id="aboutTabMobile"
+                        data-i18n="aboutUs">About Us</a></li>
+                <li><a href="#trainingSection" class="block px-6 py-3 nav-link-hover tab text-lg" id="trainingTabMobile"
+                        data-i18n="ourTraining">Our Training</a></li>
+                <li><a href="#servicesSection" class="block px-6 py-3 nav-link-hover tab" id="servicesTabMobile"
+                        data-i18n="services">Services</a></li>
+                <li><a href="#viewBookingsSection" class="block px-6 py-3 nav-link-hover tab text-lg"
+                        id="viewBookingsTabMobile" data-i18n="yourBookings">Your Bookings</a></li>
+                <li><a href="#testimonialsSection" class="block px-6 py-3 nav-link-hover tab text-lg"
+                        id="testimonialsTabMobile" data-i18n="testimonials">Testimonials</a></li>
+                <li><a href="#contactSection" class="block px-6 py-3 nav-link-hover tab text-lg" id="contactTabMobile"
+                        data-i18n="contactUs">Contact Us</a></li>
+                <!-- Language Selector for Mobile -->
+                <li>
+                    <div class="flex items-center px-6 py-3">
+                        <label for="languageSelectMobile" class="sr-only" data-i18n="language">Language</label>
+                        <select id="languageSelectMobile"
+                            class="bg-[#545120] text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8c884e] cursor-pointer w-full">
+                            <option value="en">English</option>
+                            <option value="km">ភាសាខ្មែរ</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section id="homeSection" class="section container mx-auto px-6 mb-16 block">
+            <div class="relative w-full hero-height overflow-hidden rounded-xl shadow-2xl">
+                <img src="https://i.postimg.cc/LsbpCP0B/i-Stock-927798748-Converted-3.jpg" alt="Luxurious Spa Interior"
+                    class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-10xl font-extrabold text-[#545120] leading-tight drop-shadow-2xl mb-4 animate-fade-in-up"
+                        data-i18n="homeHeading">
+                        Premium Services & Affordable Price
+                    </h1>
+                    <p class="text-lg sm:text-xl md:text-2xl text-[#545120] max-w-2xl drop-shadow-lg animate-fade-in-up delay-200"
+                        data-i18n="homeSubheading">
+                        Opening 10:00am to 11:30pm dailay.
+                    </p>
+                    <button
+                        class="mt-8 px-9 py-4 text-lg font-semibold text-white rounded-full btn-gradient shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#8c884e] transition-all duration-300"
+                        onclick="showSection('servicesSection');" data-i18n="exploreServicesBtn">
+                        Explore Services
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="aboutSection" class="section container mx-auto px-6 py-10 hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow-lg max-w-4xl mx-auto text-center" style="background-image: url('https://i.postimg.cc/BvLSGNFw/i-Stock-1271274052-Converted-7.jpg'); 
+                background-size: 830px 265px; 
+                background-position: 50% 0.65%;
+                background-repeat: no-repeat;
+                background-blend-mode: overlay; 
+                background-color: rgba(255, 255, 255, 0.3); ">
+                <h2 class="text-4xl font-bold text-[#545120] mb-6" data-i18n="aboutSpaHeading">About Dolphin Spa</h2>
+                <div class="flex flex-col items-center justify-center mb-8">
+                    <img src="https://i.postimg.cc/X7pG7ts0/photo-2025-04-09-13-39-08.jpg" alt="About Us Logo"
+                        class="w-32 h-32 rounded-full shadow-lg mb-4">
+                    <h2 class="text-4xl font-bold text-[#545120]"></h2>
+                </div>
+
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="aboutSpaPara1">
+                    Welcome to Dolphin Spa, where tranquility meets rejuvenation. Nestled in the heart of Aqua City, our
+                    spa is a sanctuary designed to transport you away from the everyday hustle and into a realm of pure
+                    relaxation. We are inspired by the serene beauty and grace of dolphins, aiming to bring that same
+                    sense of peace and vitality to each of our cherished guests.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="aboutSpaPara2">
+                    Our philosophy centers on holistic well-being, believing that true relaxation encompasses mind,
+                    body, and spirit. Our team of highly skilled and compassionate therapists is dedicated to providing
+                    personalized treatments using only the finest natural products and techniques. From traditional
+                    massages to advanced therapeutic rituals, every service is crafted to restore balance and enhance
+                    your natural radiance.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mb-8" data-i18n="aboutSpaPara3">
+                    Step into Dolphin Spa and embark on a journey of sensory delight. Allow us to guide you towards a
+                    state of profound calm and renewed energy. Your well-being is our passion, and we look forward to
+                    welcoming you to our oasis of tranquility.
+                </p>
+
+                <!-- Our Professional Therapists section moved here -->
+                <h2 class="text-4xl font-bold text-center text-[#545120] mb-10" data-i18n="therapistsHeading">Meet our
+                    professional therapists</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div
+                        class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://i.postimg.cc/L4ZZsTB5/1.jpg" alt="Therapy Session 1"
+                            class="w-full h-56 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-[#545120] mb-2" data-i18n="therapistDuong">Mr.Duong
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://i.postimg.cc/fTnSS9BK/3.jpg" alt="Therapy Session 2"
+                            class="w-full h-56 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-[#545120] mb-2" data-i18n="therapistSali">Mr.Sali</h3>
+                        </div>
+                    </div>
+
+                    <!-- <div
+                        class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://i.postimg.cc/J4NDNzFW/2.jpg" alt="Therapy Session 3"
+                            class="w-full h-56 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-[#545120] mb-2" data-i18n="therapistRozy">Mr.Rozy</h3>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://i.postimg.cc/pr0v6zG3/pexels-karolina-grabowska-4473400.jpg"
+                            alt="Therapy Session 4" class="w-full h-56 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-[#545120] mb-2" data-i18n="therapistRozy">Mr.Rozy</h3>
+                        </div>
+                    </div> -->
+
+                    <div
+                        class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://i.postimg.cc/pr0v6zG3/pexels-karolina-grabowska-4473400.jpg"
+                            alt="Therapy Session 5" class="w-full h-56 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-[#545120] mb-2" data-i18n="therapistSreyNeth">
+                                Ms.SreyNeth</h3>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://placehold.co/400x300/a0c4ff/001d3d?text=Therapy+Image" alt="Therapy Session 6"
+                            class="w-full h-56 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-[#545120] mb-2" data-i18n="therapistSreyOun">
+                                Ms.SreyOun</h3>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End Our Professional Therapists section -->
+
+            <div class="flex justify-center">
+                <button
+                    class="mt-8 px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    onclick="showSection('homeSection');" data-i18n="backBtn">
+                    Back to Home
+                </button>
+            </div>
+
+        </section>
+
+        <!-- The therapistsSection is now removed as its content has been moved to aboutSection -->
+        <!-- <section id="therapistsSection" class="section container mx-auto px-6 py-10 hidden">
+            <h2 class="text-4xl font-bold text-center text-[#545120] mb-10" data-i18n="therapistsHeading">Meet our
+                professional therapists</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/L4ZZsTB5/1.jpg" alt="Therapy Session 1"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Duong</h3>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/fTnSS9BK/3.jpg" alt="Therapy Session 2"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Sali</h3>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/J4NDNzFW/2.jpg" alt="Therapy Session 3"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Rozy</h3>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/pr0v6zG3/pexels-karolina-grabowska-4473400.jpg"
+                        alt="Therapy Session 4" class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Rozy</h3>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/pr0v6zG3/pexels-karolina-grabowska-4473400.jpg"
+                        alt="Therapy Session 5" class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Ms.SreyNeth</h3>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/400x300/a0c4ff/001d3d?text=Therapy+Image" alt="Therapy Session 6"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Ms.SreyOun</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="therapyGalleryText">
+                    Our Picture Therapy gallery showcases moments of calm, reflection, and growth experienced within our
+                    therapeutic environment. These images are curated to inspire peace and highlight the journey towards
+                    mental well-being.
+                </p>
+                <button
+                    class="mt-4 px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    onclick="showSection('aboutSection');" data-i18n="backBtn">
+                    Back to About Us
+                </button>
+            </div>
+        </section> -->
+
+        <section id="trainingSection" class="section container mx-auto px-6 py-10 hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow-lg max-w-4xl mx-auto text-center"
+                style="background-image: url('https://i.postimg.cc/rm5f0d3N/i-Stock-2163570693-Converted-2.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.3);">
+                <h2 class="text-4xl font-bold text-[#545120] mb-6" data-i18n="ourTraining">Our Training</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="trainingPara1">
+                    At Dolphin Spa, our commitment to excellence begins with rigorous and continuous training for all
+                    our therapists. We believe that mastery of therapeutic techniques, combined with a deep
+                    understanding of client well-being, is paramount to delivering an unparalleled spa experience.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="trainingPara2">
+                    Our training programs are comprehensive, covering a wide range of traditional and modern spa
+                    treatments, advanced massage modalities, aromatherapy, and client communication. Each therapist
+                    undergoes extensive hands-on practice, theoretical instruction, and regular assessments to ensure
+                    they meet our high standards of professionalism and skill.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mb-8" data-i18n="trainingPara3">
+                    We also emphasize the importance of holistic care, encouraging our team to cultivate mindfulness and
+                    empathy in their approach. This ensures that every touch not only addresses physical needs but also
+                    caters to the emotional and mental rejuvenation of our guests. Our therapists are continuously
+                    learning, bringing the latest innovations and best practices to your treatment.
+                </p>
+
+                <!-- Training Image Gallery -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <img src="https://i.postimg.cc/HL9dvbBr/Untitled-design-5.png" alt="Spa Training Session"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/3xDfzGQX/Khmer-massage.jpg" alt="Training Session 1"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/28FSh05J/Deep-Tissue-massage.jpg" alt="Training Session 2"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/5ttyx8br/Aroma-massage.jpg" alt="Training Session 3"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/XvX2GbmQ/Back-Chest-massage.jpg" alt="Training Session 4"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/R0C6NjQX/Hot-balm-massage.jpg" alt="Training Session 5"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/rwZjLHsW/Four-Hand-Oil-massage.jpg" alt="Training Session 6"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                    <img src="https://i.postimg.cc/D0QnQz7s/Hot-stone-massage.jpg" alt="Training Session 7"
+                        class="w-full h-32 object-cover rounded-lg shadow-md">
+                </div>
+
+                <button
+                    class="mt-8 px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    onclick="showSection('homeSection');" data-i18n="backBtn">
+                    Back to Home
+                </button>
+            </div>
+        </section>
+
+        <section id="servicesSection" class="section container mx-auto px-6 py-10 hidden">
+            <h2 class="text-4xl font-bold text-center text-[#545120] mb-10" data-i18n="servicesHeading">Our Divine
+                Services</h2>
+            <div id="servicesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </section>
+
+        <section id="detailSection" class="section container mx-auto px-6 py-10 hidden">
+            <div id="serviceDetail"
+                class="bg-white p-8 rounded-xl card-shadow-lg flex flex-col lg:flex-row items-center lg:items-start gap-8">
+            </div>
+            <div class="flex justify-center space-x-4 mt-8">
+                <button
+                    class="px-7 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    id="backBtn" data-i18n="backToServicesBtn">
+                    Back to Services
+                </button>
+                <button
+                    class="px-7 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    id="bookNowBtn" data-i18n="bookThisServiceBtn">
+                    Book This Service
+                </button>
+            </div>
+        </section>
+
+        <section id="servicesSection" class="section container mx-auto px-6 py-10 hidden">
+            <h2 class="text-4xl font-bold text-center text-[#545120] mb-10" data-i18n="servicesHeading">Our Divine
+                Services</h2>
+            <div id="servicesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </section>
+
+        <section id="detailSection" class="section container mx-auto px-6 py-10 hidden">
+            <div id="serviceDetail"
+                class="bg-white p-8 rounded-xl card-shadow-lg flex flex-col lg:flex-row items-center lg:items-start gap-8">
+            </div>
+            <div class="flex justify-center space-x-4 mt-8">
+                <button
+                    class="px-7 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    id="backBtn" data-i18n="backToServicesBtn">
+                    Back to Services
+                </button>
+                <button
+                    class="px-7 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    id="bookNowBtn" data-i18n="bookThisServiceBtn">
+                    Book This Service
+                </button>
+            </div>
+        </section>
+
+        <section id="bookingFormSection" class="section container mx-auto px-6 py-10 hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow-lg max-w-2xl mx-auto">
+                <h2 class="text-3xl font-semibold text-[#545120] mb-6 text-center" data-i18n="bookServiceHeading">Book
+                    Your Service</h2>
+                <form id="bookingForm">
+                    <div class="mb-4">
+                        <label for="serviceName" class="block text-gray-700 text-sm font-bold mb-2"
+                            data-i18n="selectedServiceLabel">Selected Service</label>
+                        <input type="text" id="serviceName" name="serviceName"
+                            class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent bg-gray-100"
+                            readonly>
+                    </div>
+                    <!-- Remark Fields -->
+                    <div class="mb-4">
+                        <label for="aromaOil" class="block text-gray-700 text-sm font-bold mb-2" data-i18n="aromaOil">
+                            Aroma Oil
+                        </label>
+                        <select id="aromaOil" name="aromaOil"
+                            class="shadow border rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7d7936]">
+                            <option value="Coconut" data-i18n="aromaCoconut">Coconut</option>
+                            <option value="Jasmine" data-i18n="aromaJasmine">Jasmine</option>
+                            <option value="Lavender" data-i18n="aromaLavender">Lavender</option>
+                            <option value="Lemongrass" data-i18n="aromaLemongrass">Lemongrass</option>
+                            <option value="No Scented Oil" data-i18n="aromaNone">No Scented Oil</option>
+                        </select>
+
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-base font-bold mb-3"
+                            data-i18n="pressure">Pressure</label>
+                        <div class="flex justify-center space-x-8">
+                            <label class="inline-flex items-center space-x-2 text-lg font-bold">
+                                <input type="radio" name="pressure" value="Mild" class="w-6 h-6 text-[#7d7936]"
+                                    required>
+                                <span data-i18n="pressureMild">Mild</span>
+                            </label>
+                            <label class="inline-flex items-center space-x-2 text-lg font-bold">
+                                <input type="radio" name="pressure" value="Medium" class="w-6 h-6 text-[#7d7936]">
+                                <span data-i18n="pressureMedium">Medium</span>
+                            </label>
+                            <label class="inline-flex items-center space-x-2 text-lg font-bold">
+                                <input type="radio" name="pressure" value="Strong" class="w-6 h-6 text-[#7d7936]">
+                                <span data-i18n="pressureStrong">Strong</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <label for="focusArea" class="block text-gray-700 text-sm font-bold mb-2" data-i18n="bodyFocus">
+                            Body area to focus
+                        </label>
+                        <input type="text" id="focusArea" name="focusArea"
+                            class="shadow border rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7d7936]">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="avoidArea" class="block text-gray-700 text-sm font-bold mb-2" data-i18n="bodyAvoid">
+                            Body area to avoid
+                        </label>
+                        <input type="text" id="avoidArea" name="avoidArea"
+                            class="shadow border rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7d7936]">
+                    </div>
+
+
+                    <!-- Therapy Name Selection Field for Booking Form - Made Visible and functional -->
+                    <div class="mb-4" id="therapyNameGroup">
+                        <label for="therapyName" class="block text-gray-700 text-sm font-bold mb-2"
+                            data-i18n="selectTherapyLabel">Select Specific Therapy:</label>
+                        <select id="therapyName" name="therapyName"
+                            class="shadow border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent">
+                            <!-- Options will be dynamically populated by JavaScript -->
+                            <option value="Mr.Duong" data-i18n="therapistDuong">Mr.Duong</option>
+                            <option value="Mr.Sali" data-i18n="therapistSali">Mr.Sali</option>
+                            <!-- <option value="Mr.Rozy" data-i18n="therapistRozy">Mr.Rozy</option> -->
+                            <option value="Ms.SreyNeth" data-i18n="therapistSreyNeth">Ms.SreyNeth</option>
+                            <option value="Ms.SreyOun" data-i18n="therapistSreyOun">Ms.SreyOun</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
+                            data-i18n="yourNameLabel">Your Name</label>
+                        <input type="text" id="name" name="name" required
+                            class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent">
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2"
+                            data-i18n="phoneNumberLabel">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required
+                            class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent">
+                    </div>
+                    <div class="mb-6">
+                        <label for="datetime" class="block text-gray-700 text-sm font-bold mb-2"
+                            data-i18n="bookingTimeLabel">Preferred Booking Time</label>
+                        <input type="datetime-local" id="datetime" name="datetime" required
+                            class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button type="submit"
+                            class="px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                            data-i18n="confirmBookingBtn">
+                            Confirm Booking
+                        </button>
+
+                        <button type="button"
+                            class="px-8 py-3 bg-gray-300 text-gray-800 font-semibold rounded-full shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75"
+                            id="backFromBookingBtn" data-i18n="backBtn">
+                            Back
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="viewBookingsSection" class="section container mx-auto px-6 py-10 hidden">
+            <h2 class="text-4xl font-bold text-center text-[#545120] mb-8" data-i18n="yourBookingsHeading">Your Bookings
+            </h2>
+            <ul id="bookingList" class="space-y-6 max-w-3xl mx-auto">
+            </ul>
+            <div class="flex flex-col items-center mt-8">
+                <!-- The save booking picture label and spinner are now rendered dynamically inside the list item -->
+                <button
+                    class="px-7 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    id="backToHomeBtn" data-i18n="backToHomeBtn">
+                    Back to Home
+                </button>
+            </div>
+        </section>
+
+        <section id="pictureTherapySection" class="section container mx-auto px-6 py-10 hidden">
+            <h2 class="text-4xl font-bold text-center text-[#545120] mb-10" data-i18n="therapistsHeading">Meet our
+                professional therapists</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/L4ZZsTB5/1.jpg" alt="Therapy Session 1"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Duong</h3>
+                        <!-- <p class="text-gray-600 text-sm">A snapshot of a calming therapy session, focusing on mindfulness and inner peace.</p> -->
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/fTnSS9BK/3.jpg" alt="Therapy Session 2"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Sali</h3>
+                        <!-- <p class="text-gray-600 text-sm">Capturing the quiet strength found in moments of deep reflection and understanding.</p> -->
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/J4NDNzFW/2.jpg" alt="Therapy Session 3"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Rozy</h3>
+                        <!-- <p class="text-gray-600 text-sm">Illustrating the supportive environment created for personal growth and healing.</p> -->
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/pr0v6zG3/pexels-karolina-grabowska-4473400.jpg"
+                        alt="Therapy Session 4" class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Mr.Rozy</h3>
+                        <!-- <p class="text-gray-600 text-sm">Images depicting the empowering journey of individuals engaging in therapeutic practices.</p> -->
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://i.postimg.cc/pr0v6zG3/pexels-karolina-grabowska-4473400.jpg"
+                        alt="Therapy Session 5" class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Ms.SreyNeth</h3>
+                        <!-- <p class="text-gray-600 text-sm">Visuals of peaceful meditation, a core component of our therapy to foster inner calm.</p> -->
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-xl overflow-hidden card-shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <!-- Updated broken image URL with a placeholder -->
+                    <img src="https://placehold.co/400x300/a0c4ff/001d3d?text=Therapy+Image" alt="Therapy Session 6"
+                        class="w-full h-56 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-[#545120] mb-2">Ms.SreyOun</h3>
+                        <!-- <p class="text-gray-600 text-sm">Showcasing the comprehensive approach to healing, integrating various therapeutic methods.</p> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="therapyGalleryText">
+                    Our Picture Therapy gallery showcases moments of calm, reflection, and growth experienced within our
+                    therapeutic environment. These images are curated to inspire peace and highlight the journey towards
+                    mental well-being.
+                </p>
+                <button
+                    class="mt-4 px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75"
+                    onclick="showSection('contactSection');" data-i18n="learnMoreTherapiesBtn">
+                    Learn More About Our Therapies
+                </button>
+            </div>
+        </section>
+
+        <section id="testimonialsSection" class="section container mx-auto px-6 py-10 hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow-lg max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column: Review Submission Form -->
+
+                    <div>
+                        <h2 class="text-3xl font-bold text-[#545120] mb-6" data-i18n="submitReviewHeading">Please
+                            Comment and Rate Us</h2>
+                        <form id="reviewForm" class="space-y-4">
+                            <div class="flex justify-center mb-6">
+                                <img src="https://i.postimg.cc/6pSp010y/google-review-logo.png" alt="Google Review Logo"
+                                    class="w-48 h-auto">
+                            </div>
+
+                            <div>
+                                <label for="reviewerName" class="block text-gray-700 text-sm font-bold mb-2"
+                                    data-i18n="yourNameLabel">Your Name</label>
+                                <input type="text" id="reviewerName" name="reviewerName"
+                                    class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent"
+                                    placeholder="Tell us your name" required>
+                            </div>
+                            <div>
+                                <label for="reviewerEmail" class="block text-gray-700 text-sm font-bold mb-2"
+                                    data-i18n="yourEmailLabel">Your Email</label>
+                                <input type="email" id="reviewerEmail" name="reviewerEmail"
+                                    class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent"
+                                    placeholder="Tell us your email" required>
+                            </div>
+                            <div>
+                                <label for="reviewTitle" class="block text-gray-700 text-sm font-bold mb-2"
+                                    data-i18n="reviewTitleLabel">Title of your review</label>
+                                <input type="text" id="reviewTitle" name="reviewTitle"
+                                    class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent"
+                                    placeholder="Summarize your review or highlight an interesting detail" required>
+                            </div>
+                            <div>
+                                <label for="reviewText" class="block text-gray-700 text-sm font-bold mb-2"
+                                    data-i18n="yourReviewLabel">Your Review</label>
+                                <textarea id="reviewText" name="reviewText" rows="4"
+                                    class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:border-transparent"
+                                    placeholder="Tell people your review" required></textarea>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input type="checkbox" id="genuineOpinion" name="genuineOpinion"
+                                    class="form-checkbox h-5 w-5 text-[#545120] rounded" required>
+                                <label for="genuineOpinion" class="ml-2 text-gray-700 text-sm"
+                                    data-i18n="genuineOpinionText">This review is based on my own experience and is my
+                                    genuine opinion.</label>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-bold mb-2"
+                                    data-i18n="yourRatingLabel">Your overall rating</label>
+                                <div class="star-rating flex justify-center">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5"
+                                        title="Excellent"><i class="fa fa-star"></i></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"
+                                        title="Very Good"><i class="fa fa-star"></i></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"
+                                        title="Average"><i class="fa fa-star"></i></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"
+                                        title="Poor"><i class="fa fa-star"></i></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1"
+                                        title="Terrible"><i class="fa fa-star"></i></label>
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75 w-full"
+                                data-i18n="submitReviewBtn">
+                                Submit your review
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Review Results and List -->
+                    <div>
+                        <h2 class="text-3xl font-bold text-[#545120] mb-6" data-i18n="reviewResultsHeading">Results</h2>
+                        <div class="mb-6 bg-[#fcfbfb] p-6 rounded-lg shadow-inner">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2" data-i18n="overallRatingText">Your
+                                overall rating</h3>
+                            <div class="flex items-center justify-center mb-4">
+                                <span id="overallRatingDisplay"
+                                    class="text-5xl font-bold text-[#545120] mr-2">0.0</span>
+                                <div id="overallStarsDisplay" class="text-yellow-500 text-4xl">
+                                    <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i
+                                        class="far fa-star"></i><i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <!-- MODIFIED LINE BELOW: Removed data-i18n from p and added new spans with data-i18n -->
+                            <p class="text-gray-600 mb-4">
+                                <span id="totalReviewsCount">0.0</span> <span data-i18n="outOfFiveStarsStaticText">out
+                                    of 5 stars</span> (<span data-i18n="basedOnReviewsStaticText">based on</span> <span
+                                    id="numReviews">0</span> <span data-i18n="reviewsWordStaticText">reviews</span>)
+                            </p>
+
+                            <div class="space-y-2 text-left">
+                                <div class="flex items-center">
+                                    <span class="w-20 text-gray-700" data-i18n="excellentRating">Excellent</span>
+                                    <div class="rating-bar flex-grow mx-2">
+                                        <div id="barExcellent" class="rating-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="percentExcellent" class="w-10 text-right text-gray-700">0%</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-20 text-gray-700" data-i18n="veryGoodRating">Very good</span>
+                                    <div class="rating-bar flex-grow mx-2">
+                                        <div id="barVeryGood" class="rating-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="percentVeryGood" class="w-10 text-right text-gray-700">0%</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-20 text-gray-700" data-i18n="averageRating">Average</span>
+                                    <div class="rating-bar flex-grow mx-2">
+                                        <div id="barAverage" class="rating-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="percentAverage" class="w-10 text-right text-gray-700">0%</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-20 text-gray-700" data-i18n="poorRating">Poor</span>
+                                    <div class="rating-bar flex-grow mx-2">
+                                        <div id="barPoor" class="rating-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="percentPoor" class="w-10 text-right text-gray-700">0%</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-20 text-gray-700" data-i18n="terribleRating">Terrible</span>
+                                    <div class="rating-bar flex-grow mx-2">
+                                        <div id="barTerrible" class="rating-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="percentTerrible" class="w-10 text-right text-gray-700">0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-[#545120] mb-4" data-i18n="yourReviewsHeading">Your Review
+                        </h3>
+                        <div id="reviewsList" class="space-y-4">
+                            <p id="noReviewsMessage" class="text-gray-600 text-center" data-i18n="noReviewsYet">There
+                                are no reviews yet. Be the first one to write one.</p>
+                            <!-- Reviews will be dynamically loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contactSection" class="section container mx-auto px-6 py-10 hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow-lg max-w-xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-[#545120] mb-6" data-i18n="contactHeading">Reach Out to Us</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="contactSubheading">
+                    Have questions or need assistance? Our friendly team is here to help you.
+                </p>
+                <div class="space-y-4 text-left inline-block">
+                    <p class="flex items-center text-xl text-gray-800" data-i18n="phoneInfo"><svg
+                            class="w-6 h-6 mr-3 text-[#545120]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.774a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                                clip-rule="evenodd"></path>
+                        </svg> Phone: 070720265 & 012318832</p>
+                    <p class="flex items-center text-xl text-gray-800" data-i18n="emailInfo"><svg
+                            class="w-6 h-6 mr-3 text-[#545120]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                                clip-rule="evenodd"></path>
+                        </svg> Email: contact@dolphinspa.com</p>
+                    <p class="flex items-center text-xl text-gray-800" data-i18n="addressInfo"><svg
+                            class="w-6 h-6 mr-3 text-[#545120]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M12 1.586l-4 4V14a1 1 0 001 1h2a1 1 0 001-1V5.586l-4-4zM2 6a2 2 0 012-2h3a1 1 0 011 1v1a1 1 0 01-1 1H4a1 1 0 00-1 1v3a1 1 0 001 1h2.586l.707.707A1 1 0 017 14h6a1 1 0 01.707-.293l.707-.707H16a1 1 0 001-1V9a1 1 0 01-1-1h-3a1 1 0 01-1-1V5a1 1 0 011-1h3a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                clip-rule="evenodd"></path>
+                        </svg> Address: 789 Ocean Drive, Aqua City, State 12345</p>
+                </div>
+                <!-- Changed button to anchor tag for Telegram link -->
+                <a href="https://t.me/Dolphin_Spa" target="_blank"
+                    class="inline-block mt-8 px-8 py-3 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75 text-center"
+                    data-i18n="sendMessageBtn">
+                    Send us a Message
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-300 py-10 mt-16 rounded-t-xl">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+                <h4 class="text-xl font-bold text-white mb-4">Dolphin Spa</h4>
+                <p class="text-sm leading-relaxed" data-i18n="footerText">
+                    Where the soothing rhythms of the ocean inspire your ultimate relaxation and rejuvenation.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold text-white mb-4" data-i18n="quickLinksHeading">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200"
+                            data-i18n="ourStoryLink">Our Story</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200"
+                            data-i18n="giftCertificatesLink">Gift Certificates</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200"
+                            data-i18n="careerOpportunitiesLink">Career Opportunities</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold text-white mb-4" data-i18n="connectWithUsHeading">Connect With Us</h4>
+                <div class="flex justify-center md:justify-start space-x-4 mt-4">
+                    <!-- Facebook Icon -->
+                    <a href="https://www.facebook.com/share/16hNKfgcxw/?mibextid=wwXIfr" target="_blank"
+                        rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-facebook-f w-6 h-6"></i>
+                    </a>
+                    <!-- Instagram Icon -->
+                    <a href="https://www.instagram.com/dolphin_boutique_spa?igsh=OHZ2d25rNjh0c3pl" target="_blank"
+                        rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-instagram w-6 h-6"></i>
+                    </a>
+                    <!-- TikTok Icon -->
+                    <!-- <a href="https://www.tiktok.com/@yourdolphinspa" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-tiktok w-6 h-6"></i>
+                    </a> -->
+                    <!-- Google Maps Icon -->
+                    <a href="https://maps.app.goo.gl/ztymZ9GTbsVTqdMt6?g_st=ipc" target="_blank"
+                        rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fas fa-map-marker-alt w-6 h-6"></i>
+                    </a>
+                    <!-- Call Icon -->
+                    <a href="tel:+855 70 720 265" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fas fa-phone w-6 h-6"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+            <p>&copy; 2025 Dolphin Spa. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white transition duration-200"
+                    data-i18n="privacyPolicyLink">Privacy Policy</a>
+                <span class="text-gray-600">|</span>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-200"
+                    data-i18n="termsOfServiceLink">Terms of Service</a>
+                <span class="text-gray-600">|</span>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-200"
+                    data-i18n="sitemapLink">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="alertModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('alertModal')">&times;</span>
+            <p id="alertMessage" class="text-lg text-gray-800 mb-6"></p>
+            <button
+                class="px-6 py-3 btn-gradient text-white font-semibold rounded-full focus:outline-none focus:ring-2 focus:ring-[#7d7936]"
+                onclick="closeModal('alertModal')">OK</button>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('confirmModal')">&times;</span>
+            <p id="confirmMessage" class="text-lg text-gray-800 mb-6"></p>
+            <div class="flex justify-center space-x-4">
+                <button
+                    class="px-6 py-3 btn-gradient text-white font-semibold rounded-full focus:outline-none focus:ring-2 focus:ring-[#7d7936]"
+                    id="confirmYes">Yes</button>
+                <button
+                    class="px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-full hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    id="confirmNo">No</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const translations = {
+            en: {
+                home: "Home",
+                aboutUs: "About Us",
+                ourStory: "Our Story",
+                ourTraining: "Our Training",
+                trainingPara1: "At Dolphin Spa, we prioritize continuous professional development for our massage therapists—not just as a formality, but as a vital long-term investment in quality. Our training program ensures every team member stays current with the latest massage techniques, treatment trends, and hygiene protocols. By consistently refreshing and expanding our team's expertise, we guarantee that every guest receives top-tier care grounded in the latest wellness standards.",
+                trainingPara2: "To maintain excellence across every client touchpoint, Dolphin Spa adopts a standardized training framework for all massage therapists. This ensures consistent treatment quality, uniform procedures, and seamless service delivery regardless of which therapist a client sees. Our unified curriculum fosters reliability and elevates the guest experience—helping us build trust, repeat visits, and a strong spa reputation.",
+                trainingPara3: "Finally, our young and energetic team brings vitality and enthusiasm to every session, and our robust training program ensures that energy is matched with skill and professionalism. Continuous workshops, mentorship, and hands-on skill updates enable our youthful staff to thrive in a fast-evolving wellness environment. This also contributes to higher job satisfaction and staff loyalty. At Dolphin Spa, youthful energy meets structured excellence—so clients enjoy inviting yet expertly-delivered care, visit after visit.",
+                services: "Treatments",
+                allServices: "All Services",
+                therapy: "Therapy",
+                yourBookings: "Your Bookings",
+                testimonials: "Testimonials",
+                contactUs: "Contact Us",
+                language: "Language",
+                homeHeading: "Premium Services & Affordable Price",
+                homeSubheading: "Opening 10:00am to 11:30pm dailay",
+                exploreServicesBtn: "Booking Your Treatment Now",
+                aboutSpaHeading: "About Dolphin Spa",
+                aboutSpaPara1: "At Dolphin Spa, our philosophy is simple: we deliver premium, professional spa experiences—and we do it at prices that are refreshingly accessible. We believe wellness shouldn’t be exclusive. That’s why we bring high-quality treatments, serene ambiance, and expert therapists in a setting that feels luxurious—without the premium price tag. You’ll enjoy the experience of a high end spa while knowing you’re getting real value in every session.",
+                aboutSpaPara2: "Because we consistently offer affordable rates, our guests feel encouraged to make self care a regular routine rather than a rare indulgence. Many of our clients treat themselves multiple times a week—whether it's a rejuvenating traditional Khmer massage, a relaxing oil massage, or a revitalizing body treatment package—because they know they can do so without stretching their budget. Our flexible packages and accessible pricing structure empower customers to treat themselves more frequently, contributing to better mental, emotional, and physical well being.",
+                aboutSpaPara3: "The result of our approach speaks for itself: glowing reviews and loyal, repeat customers. Our Google Map ratings consistently reflect customer delight—highlighting our attentive service, clean and serene space, and exceptional value. Guests often share how they’ve returned time and again, drawn back by both the quality of our offerings and the approachable pricing. This loyal community and stellar online reputation are testaments to our commitment to making premium care accessible to everyone.",
+                contactUsBtn: "Contact Us to Learn More",
+                servicesHeading: "Our Treatments",
+                backToServicesBtn: "Back to Services",
+                bookThisServiceBtn: "Book This Service",
+                bookServiceHeading: "Book Your Service",
+                selectedServiceLabel: "Selected Service",
+                yourNoteLabel: "Note",
+                aromaOil: "Aroma Oil",
+                aromaCoconut: "Coconut",
+                aromaJasmine: "Jasmine",
+                aromaLavender: "Lavender",
+                aromaLemongrass: "Lemongrass",
+                aromaNone: "No Scented",
+                pressure: "Pressure",
+                pressureMild: "Mild",
+                pressureMedium: "Medium",
+                pressureStrong: "Strong",
+                bodyFocus: "Body area to focus",
+                bodyAvoid: "Body area to avoid",
+                selectTherapyLabel: "Select Specific Therapy:",
+                therapistDuong: "Mr.Duong",
+                therapistSali: "Mr.Sali",
+                therapistSreyNeth: "Ms.SreyNeth",
+                therapistSreyOun: "Ms.SreyOun",
+                yourNameLabel: "Your Name",
+                yourEmailLabel: "Your Email",
+                phoneNumberLabel: "Phone Number",
+                bookingTimeLabel: "Preferred Booking Time",
+                confirmBookingBtn: "Confirm Booking",
+                backBtn: "Back",
+                yourBookingsHeading: "Your Bookings",
+                backToHomeBtn: "Back to Home",
+                therapistsHeading: "Our professional therapists",
+                therapyGalleryText: "Our Picture Therapy gallery showcases moments of calm, reflection, and growth experienced within our therapeutic environment. These images are curated to inspire peace and highlight the journey towards mental well-being.",
+                learnMoreTherapiesBtn: "Learn More About Our Therapies",
+                testimonialsHeading: "What Our Clients Say",
+                submitReviewHeading: "Please Comment and Rate Us",
+                reviewTitleLabel: "Title of your review",
+                yourReviewLabel: "Your Review",
+                genuineOpinionText: "This review is based on my own experience and is my genuine opinion.",
+                yourRatingLabel: "Your overall rating",
+                submitReviewBtn: "Submit your review",
+                reviewResultsHeading: "Results",
+                overallRatingText: "Your overall rating",
+                // MODIFIED: New keys for static text in the rating summary sentence
+                outOfFiveStarsStaticText: "out of 5 stars",
+                basedOnReviewsStaticText: "based on",
+                reviewsWordStaticText: "reviews",
+                // END MODIFIED
+                yourReviewsHeading: "Your Review",
+                excellentRating: "Excellent",
+                veryGoodRating: "Very good",
+                averageRating: "Average",
+                poorRating: "Poor",
+                terribleRating: "Terrible",
+                noReviewsYet: "There are no reviews yet. Be the first one to write one.",
+                contactHeading: "Reach Out to Us",
+                contactSubheading: "Have questions or need assistance? Our friendly team is here to help you.",
+                phoneInfo: "Phone:  070720265 & 012318832",
+                emailInfo: "Email: chhour_kuk@yahoo.com",
+                addressInfo: "Address: Phnom Penh Thmey, Sensok Phnom Penh, Cambodia 180404",
+                sendMessageBtn: "Send us a Message",
+                footerText: "Thank You for Choosing Dolphin Spa",
+                quickLinksHeading: "Quick Links",
+                ourStoryLink: "Our Story",
+                giftCertificatesLink: "Gift Certificates",
+                careerOpportunitiesLink: "Career Opportunities",
+                connectWithUsHeading: "Contact With Us",
+                privacyPolicyLink: "Privacy Policy",
+                termsOfServiceLink: "Terms of Service",
+                sitemapLink: "Sitemap",
+                priceUponInquiry: "Price upon inquiry",
+                viewDetailsBtn: "Book Now",
+                pastBookingAlert: "Please select a future date and time for your booking.",
+                confirmBookingPrefix: "Confirm booking for",
+                confirmBookingOn: "on",
+                bookingCancelled: "Booking cancelled.",
+                selectServiceDurationAlert: "Please select a service and a duration before booking.",
+                noBookingsYet: "No bookings yet. Why not book a relaxing session?",
+                priceLabel: "Price",
+                nameLabel: "Customer's name",
+                phoneLabel: "Telegram",
+                dateLabel: "Date",
+                timeLabel: "Time",
+                paymentStatusLabel: "Payment Status",
+                notApplicable: "N/A",
+                bookedOnLabel: "Booked On",
+                cancelBtn: "Cancel",
+                confirmCancelBooking: "Are you sure you want to cancel this booking?",
+                bookingCancelledSuccessfully: "Booking cancelled successfully.",
+                selectDurationAlert: "Please select a duration for the service.",
+                selectServiceFirstAlert: "Please select a service first.",
+                deleteBtn: "Delete", // Added translation for Delete button
+                confirmDeleteReview: "Are you sure you want to delete this review?", // Added translation for delete confirmation
+                reviewDeletedSuccessfully: "Review deleted successfully." // Added translation for successful deletion
+            },
+            km: {
+                home: "ទំព័រដើម",
+                aboutUs: "អំពី​ពួក​យើង",
+                ourStory: "រឿងរបស់យើង",
+                ourTraining: "បណ្តុះបណ្តាល",
+                trainingPara1: "នៅ Dolphin Spa យើងផ្តល់អាទិភាពដល់ការអភិវឌ្ឍន៍វិជ្ជាជីវៈជាបន្តបន្ទាប់សម្រាប់អ្នកម៉ាស្សារបស់យើង មិនត្រឹមតែជាទម្រង់បែបបទប៉ុណ្ណោះទេ ប៉ុន្តែជាការវិនិយោគរយៈពេលវែងដ៏សំខាន់នៅក្នុងគុណភាព។ កម្មវិធីហ្វឹកហ្វឺនរបស់យើងធានាឱ្យសមាជិកក្រុមទាំងអស់រក្សាភាពទាន់សម័យជាមួយនឹងបច្ចេកទេសម៉ាស្សា និន្នាការនៃការព្យាបាល និងពិធីការអនាម័យចុងក្រោយបំផុត។ តាមរយៈការធ្វើឱ្យស្រស់ និងពង្រីកជំនាញក្រុមរបស់យើងជាបន្តបន្ទាប់ យើងធានាថាភ្ញៀវគ្រប់រូបទទួលបានការថែទាំកម្រិតកំពូលដោយផ្អែកលើស្តង់ដារសុខភាពចុងក្រោយបង្អស់។",
+                trainingPara2: "ដើម្បីរក្សាបាននូវភាពល្អឥតខ្ចោះនៅគ្រប់ចំណុចអតិថិជនទាំងអស់ Dolphin Spa ទទួលយកនូវក្របខ័ណ្ឌបណ្តុះបណ្តាលស្តង់ដារសម្រាប់អ្នកម៉ាស្សាទាំងអស់។ នេះធានាបាននូវគុណភាពនៃការព្យាបាលជាប់លាប់ នីតិវិធីឯកសណ្ឋាន និងការផ្តល់សេវាគ្មានថ្នេរ ដោយមិនគិតពីអ្នកព្យាបាលដែលអតិថិជនមើលឃើញ។ កម្មវិធីសិក្សាបង្រួបបង្រួមរបស់យើងជំរុញឱ្យមានភាពជឿទុកចិត្ត និងលើកកំពស់បទពិសោធន៍ភ្ញៀវ--ជួយយើងបង្កើតការជឿទុកចិត្ត ការមកលេងម្តងទៀត និងកេរ្តិ៍ឈ្មោះស្ប៉ាដ៏រឹងមាំ។",
+                trainingPara3: "ជាចុងក្រោយ ក្រុមយុវជន និងស្វាហាប់របស់យើងនាំមកនូវភាពរឹងមាំ និងភាពរីករាយដល់រាល់វគ្គ ហើយកម្មវិធីបណ្តុះបណ្តាលដ៏រឹងមាំរបស់យើងធានាថាថាមពលត្រូវបានផ្គូផ្គងជាមួយនឹងជំនាញ និងវិជ្ជាជីវៈ។ សិក្ខាសាលាជាបន្តបន្ទាប់ ការបង្ហាត់បង្រៀន និងការធ្វើឱ្យទាន់សម័យជំនាញដោយដៃអាចឱ្យបុគ្គលិកវ័យក្មេងរបស់យើងមានការរីកចម្រើននៅក្នុងបរិយាកាសសុខុមាលភាពដែលវិវត្តយ៉ាងឆាប់រហ័ស។ នេះក៏រួមចំណែកដល់ការពេញចិត្តការងារខ្ពស់ និងភាពស្មោះត្រង់របស់បុគ្គលិកផងដែរ។ នៅ Dolphin Spa ថាមពលវ័យក្មេងជួបនឹងភាពល្អប្រសើរដែលមានរចនាសម្ព័ន្ធ ដូច្នេះអតិថិជនរីករាយនឹងការអញ្ជើញការថែទាំដែលផ្តល់ដោយអ្នកជំនាញ មកទស្សនាបន្ទាប់ពីការទស្សនា។",
+                services: "ការព្យាបាល",
+                allServices: "សេវាកម្ម",
+                therapy: "អ្នកម៉ស្សា",
+                yourBookings: "ការកក់របស់អ្នក",
+                testimonials: "ការវាយតម្លៃ",
+                contactUs: "ទំនាក់ទំនង",
+                language: "ភាសា",
+                homeHeading: "សេវាកម្មពិសេស និងតម្លៃសមរម្យ",
+                homeSubheading: "បើកម៉ោង 10:00ព្រឹក ដល់ 11:30យប់ រៀងរាល់ថ្ងៃ",
+                exploreServicesBtn: "កក់ការម៉ាស្សារបស់អ្នកឥឡូវនេះ",
+                aboutSpaHeading: "អំពី Dolphin Spa",
+                aboutSpaPara1: "នៅ Dolphin Spa ទស្សនវិជ្ជារបស់យើងគឺសាមញ្ញ៖ យើងផ្តល់ជូននូវបទពិសោធន៍ស្ប៉ាប្រកបដោយវិជ្ជាជីវៈ និងគុណភាពខ្ពស់ ហើយយើងធ្វើវាក្នុងតម្លៃដែលអាចចូលដំណើរការបានយ៉ាងស្រស់ស្រាយ។ យើងជឿថាសុខភាពមិនគួរផ្តាច់មុខទេ។ នោះហើយជាមូលហេតុដែលយើងនាំយកការព្យាបាលដែលមានគុណភាពខ្ពស់ បរិយាកាសស្ងប់ស្ងាត់ និងអ្នកព្យាបាលដែលមានជំនាញក្នុងការកំណត់ដែលមានអារម្មណ៍ល្អប្រណិត ដោយគ្មានស្លាកតម្លៃពិសេស។ អ្នកនឹងរីករាយជាមួយបទពិសោធន៍នៃស្ប៉ាកម្រិតខ្ពស់ ខណៈពេលដែលដឹងថាអ្នកកំពុងទទួលបានតម្លៃពិតប្រាកដនៅគ្រប់វគ្គ។",
+                aboutSpaPara2: "ដោយសារតែយើងផ្តល់ជូននូវអត្រាសមរម្យជាប់លាប់ ភ្ញៀវរបស់យើងមានអារម្មណ៍ថាមានការលើកទឹកចិត្តឱ្យធ្វើឱ្យការថែទាំខ្លួនឯងជាទម្លាប់ធម្មតា ជាជាងការបណ្ដោយខ្លួនដ៏កម្រមួយ។ អតិថិជនរបស់យើងជាច្រើនបានព្យាបាលខ្លួនឯងច្រើនដងក្នុងមួយសប្តាហ៍ - មិនថាជាការម៉ាស្សាបែបខ្មែរបែបបុរាណ ម៉ាស្សាប្រេងបន្ធូរអារម្មណ៍ ឬកញ្ចប់ព្យាបាលរាងកាយឱ្យរស់ឡើងវិញទេ ពីព្រោះពួកគេដឹងថាពួកគេអាចធ្វើដូច្នេះបានដោយមិនចាំបាច់ចំណាយថវិកា។ កញ្ចប់ដែលអាចបត់បែនបានរបស់យើង និងរចនាសម្ព័ន្ធតម្លៃដែលអាចចូលប្រើបាន ផ្តល់អំណាចដល់អតិថិជនក្នុងការព្យាបាលខ្លួនឯងឱ្យបានញឹកញាប់ជាងមុន រួមចំណែកដល់សុខុមាលភាពផ្លូវចិត្ត អារម្មណ៍ និងរាងកាយកាន់តែប្រសើរឡើង។",
+                aboutSpaPara3: "លទ្ធផលនៃវិធីសាស្រ្តរបស់យើងនិយាយសម្រាប់ខ្លួនវាផ្ទាល់៖ ការពិនិត្យដ៏ភ្លឺស្វាង និងស្មោះត្រង់ អតិថិជនម្តងទៀត។ ការវាយតម្លៃ GoogleMap របស់យើងឆ្លុះបញ្ចាំងយ៉ាងខ្ជាប់ខ្ជួននូវភាពរីករាយរបស់អតិថិជន — ការរំលេចសេវាកម្មដែលយកចិត្តទុកដាក់របស់យើង កន្លែងស្អាត និងស្ងប់ស្ងាត់ និងតម្លៃពិសេស។ ភ្ញៀវជាញឹកញាប់ចែករំលែកពីរបៀបដែលពួកគេបានត្រលប់មកវិញម្តងហើយម្តងទៀត ដោយទាញត្រឡប់មកវិញដោយទាំងគុណភាពនៃការផ្តល់ជូនរបស់យើង និងតម្លៃដែលអាចទទួលយកបាន។ សហគមន៍ដ៏ស្មោះត្រង់ និងកេរ្តិ៍ឈ្មោះលើអ៊ីនធឺណិតជាតារាគឺជាសក្ខីភាពនៃការប្តេជ្ញាចិត្តរបស់យើងក្នុងការធ្វើឱ្យការថែទាំបុព្វលាភអាចចូលប្រើបានសម្រាប់មនុស្សគ្រប់គ្នា។",
+                contactUsBtn: "ទាក់ទងមកយើងដើម្បីស្វែងយល់បន្ថែម",
+                servicesHeading: "ការម៉ាស្សារបស់យើង",
+                backToServicesBtn: "ត្រឡប់ទៅសេវាកម្ម",
+                bookThisServiceBtn: "កក់សេវាកម្មនេះ",
+                bookServiceHeading: "កក់សេវាកម្មរបស់អ្នក",
+                selectedServiceLabel: "សេវាកម្មដែលបានជ្រើសរើស",
+                yourNoteLabel: "ចំណាំ",
+                aromaOil: "ក្លិនប្រេង",
+                aromaCoconut: "ដូងខ្ទិះ",
+                aromaJasmine: "ផ្កាម្លិះ",
+                aromaLavender: "ឡាវេនឌឺ",
+                aromaLemongrass: "ស្លឹកគ្រៃ",
+                aromaNone: "គ្មានក្លិន",
+                pressure: "កម្លាំងសង្កត់",
+                pressureMild: "ស្រាល",
+                pressureMedium: "ល្មម",
+                pressureStrong: "ធ្ងន់",
+                bodyFocus: "កន្លែងដែលបុគ្គលិកប៉ះបាន",
+                bodyAvoid: "កន្លែងដែលបុគ្គលិកប៉ះមិនបាន",
+                selectTherapyLabel: "បុគ្កលិក",
+                therapistDuong: "ដួង",
+                therapistSali: "សាលិ",
+                therapistSreyNeth: "ស្រីណែត",
+                therapistSreyOun: "ស្រីអូន",
+                yourNameLabel: "ឈ្មោះរបស់អ្នក",
+                yourEmailLabel: "អ៊ីមែលរបស់អ្នក",
+                phoneNumberLabel: "លេខ​ទូរស័ព្ទ",
+                bookingTimeLabel: "ម៉ោងកក់",
+                confirmBookingBtn: "បញ្ជាក់ការកក់",
+                backBtn: "ត្រឡប់",
+                yourBookingsHeading: "ការកក់របស់អ្នក",
+                backToHomeBtn: "ត្រឡប់ទៅទំព័រដើម",
+                therapistsHeading: "បុគ្គលិកដ៏ជំនាញរបស់យើង",
+                therapyGalleryText: "វិចិត្រសាលព្យាបាលរូបភាពរបស់យើងបង្ហាញពីភាពស្ងប់ស្ងាត់ ការឆ្លុះបញ្ចាំង និងការលូតលាស់ដែលបានជួបប្រទះនៅក្នុងបរិយាកាសព្យាបាលរបស់យើង។ រូបភាពទាំងនេះត្រូវបានរៀបចំឡើងដើម្បីជំរុញសន្តិភាព និងគូសបញ្ជាក់ពីដំណើរឆ្ពោះទៅរកសុខុមាលភាពផ្លូវចិត្ត។",
+                learnMoreTherapiesBtn: "ស្វែងយល់បន្ថែមអំពីការម៉ាស្សារបស់យើង",
+                testimonialsHeading: "អ្វីដែលអតិថិជនរបស់យើងនិយាយ",
+                submitReviewHeading: "មតិយោបល់ និងវាយតម្លៃ",
+                reviewTitleLabel: "ចំណងជើងនៃការពិនិត្យឡើងវិញរបស់អ្នក",
+                yourReviewLabel: "ការពិនិត្យឡើងវិញរបស់អ្នក",
+                genuineOpinionText: "ការពិនិត្យឡើងវិញនេះគឺផ្អែកលើបទពិសោធន៍ផ្ទាល់ខ្លួនរបស់ខ្ញុំ ហើយជាមតិពិតរបស់ខ្ញុំ",
+                yourRatingLabel: "ការវាយតម្លៃរួមរបស់អ្នក",
+                submitReviewBtn: "ដាក់ស្នើការពិនិត្យឡើងវិញរបស់អ្នក",
+                reviewResultsHeading: "លទ្ធផល",
+                overallRatingText: "ការវាយតម្លៃរួមរបស់អ្នក",
+                // MODIFIED: New keys for static text in the rating summary sentence
+                outOfFiveStarsStaticText: "ក្នុងចំណោម 5 ផ្កាយ", // "in between 5 stars"
+                basedOnReviewsStaticText: "ផ្អែកលើ", // "based on"
+                reviewsWordStaticText: "ការពិនិត្យឡើងវិញ", // "reviews"
+                // END MODIFIED
+                yourReviewsHeading: "ការពិនិត្យរបស់អ្នក",
+                excellentRating: "ល្អឥតខ្ចោះ",
+                veryGoodRating: "ល្អណាស់",
+                averageRating: "មធ្យម",
+                poorRating: "ក្រីក្រ",
+                terribleRating: "ភ័យខ្លាច",
+                noReviewsYet: "មិនទាន់មានការពិនិត្យនៅឡើយទេ។ ធ្វើជាអ្នកដំបូងដែលសរសេរមួយ។",
+                contactHeading: "ទាក់ទង​មក​​យើងខ្ញុំ",
+                contactSubheading: "មានសំណួរ ឬត្រូវការជំនួយ? សូមទាក់ទងមកកាន់យើងខ្ញុំ។",
+                phoneInfo: "ទូរស័ព្ទ៖ 070720265 & 012318832",
+                emailInfo: "អ៊ីមែល៖ chhour_kuk@yahoo.com",
+                addressInfo: "អាស័យដ្ឋាន: Phnom Penh Thmey, Sensok Phnom Penh, Cambodia 180404",
+                sendMessageBtn: "ផ្ញើសារមកយើង",
+                footerText: "សូមអរគុណអ្នកសម្រាប់ការជ្រើសរើសសេវ៉ាកម្មនៅដូហ្វីន ស្ប៉ា",
+                quickLinksHeading: "តំណភ្ជាប់រហ័ស",
+                ourStoryLink: "រឿងរបស់យើង",
+                giftCertificatesLink: "ប័ណ្ណអំណោយ",
+                careerOpportunitiesLink: "ឱកាសការងារ",
+                connectWithUsHeading: "ទំនាក់ទំនងជាមួយយើង",
+                privacyPolicyLink: "គោលការណ៍​ភាព​ឯកជន",
+                termsOfServiceLink: "ល័ក្ខខ័ណ្ឌនៃសេវាកម្ម",
+                sitemapLink: "ផែនទីគេហទំព័រ",
+                priceUponInquiry: "តម្លៃតាមការសាកសួរ",
+                viewDetailsBtn: "កក់ឥឡូវនេះ",
+                pastBookingAlert: "សូមជ្រើសរើសកាលបរិច្ឆេទ និងពេលវេលាអនាគតសម្រាប់ការកក់របស់អ្នក",
+                confirmBookingPrefix: "បញ្ជាក់ការកក់សម្រាប់",
+                confirmBookingOn: "នៅលើ",
+                bookingCancelled: "ការកក់ត្រូវបានលុបចោល",
+                selectServiceDurationAlert: "សូមជ្រើសរើសសេវាកម្ម និងរយៈពេលមុនពេលកក់",
+                noBookingsYet: "មិនទាន់មានការកក់នៅឡើយទេ។ ហេតុអ្វីមិនកក់វគ្គសម្រាកលំហែ? ",
+                priceLabel: "តម្លៃ",
+                nameLabel: "ឈ្មោះ",
+                phoneLabel: "ទូរស័ព្ទ",
+                timeLabel: "ពេលវេលា",
+                paymentStatusLabel: "ស្ថានភាពបង់ប្រាក់",
+                notApplicable: "មិនមាន",
+                bookedOnLabel: "កក់នៅ",
+                cancelBtn: "បោះបង់",
+                confirmCancelBooking: "តើអ្នកប្រាកដជាចង់បោះបង់ការកក់នេះទេ?",
+                bookingCancelledSuccessfully: "ការកក់ត្រូវបានលុបចោលដោយជោគជ័យ",
+                selectDurationAlert: "សូមជ្រើសរើសរយៈពេលសម្រាប់សេវាកម្ម",
+                selectServiceFirstAlert: "សូមជ្រើសរើសសេវាកម្មជាមុនសិន",
+                deleteBtn: "លុប", // Added translation for Delete button
+                confirmDeleteReview: "តើអ្នកប្រាកដជាចង់លុបការពិនិត្យឡើងវិញនេះទេ?", // Added translation for delete confirmation
+                reviewDeletedSuccessfully: "ការពិនិត្យឡើងវិញត្រូវបានលុបដោយជោគជ័យ" // Added translation for successful deletion
+            }
+        };
+
+        // Initialize current language, attempt to load from localStorage or default to 'en'
+        let currentLang = localStorage.getItem('currentLang') || 'en';
+        // Variable to hold the timeout for clearing bookings display
+        let bookingDisplayTimeout = null;
+
+        // Custom alert and confirm functions
+        function showAlert(message) {
+            document.getElementById('alertMessage').textContent = message;
+            document.getElementById('alertModal').classList.add('show');
+        }
+
+        function showConfirm(message, callback) {
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('confirmModal').classList.add('show');
+
+            document.getElementById('confirmYes').onclick = function () {
+                closeModal('confirmModal');
+                callback(true);
+            };
+            document.getElementById('confirmNo').onclick = function () {
+                closeModal('confirmModal');
+                callback(false);
+            };
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Helper function to format date and time (from code for add.txt)
+        function formatDateAndTime(dateInput) {
+            const d = new Date(dateInput);
+            const pad = (n) => n.toString().padStart(2, '0');
+
+            const year = d.getFullYear();
+            const month = pad(d.getMonth() + 1);
+            const day = pad(d.getDate());
+
+            let hours = d.getHours();
+            const minutes = pad(d.getMinutes());
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            const formattedDate = `${year}-${month}-${day}`;
+            const formattedTime = `${pad(hours)}:${minutes} ${ampm}`;
+            return { formattedDate, formattedTime };
+        }
+        function formatDateTime(date) {
+            const d = new Date(date);
+            const pad = (n) => n.toString().padStart(2, '0');
+            let hours = d.getHours();
+            const minutes = pad(d.getMinutes());
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // The hour '0' should be '12'
+            const formattedTime = `${hours}:${minutes} ${ampm}`;
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${formattedTime}`;
+        }
+        function toLocalISOString(date) {
+            const tzOffset = date.getTimezoneOffset() * 60000; // offset in ms
+            const localISO = new Date(date - tzOffset).toISOString().slice(0, -1);
+            return localISO;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Define your API endpoint here.
+            const BASE_API_URL = "https://booking-dolphin-spa195.onrender.com"; // example
+            fetch(`${BASE_API_URL}/booking_spa12`)
+            // const BASE_API_URL = 'http://localhost:3000';
+
+            // Base URL for both bookings and testimonials
+
+            // Bookings API abstraction
+            const BookingsAPI = {
+                async getAll() {
+                    let response;
+                    let responseText;
+                    try {
+                        response = await fetch(`${BASE_API_URL}/booking_spa12`);
+
+                        // --- START New Logging for Debugging ---
+                        responseText = await response.text(); // Read response as text
+                        console.log('Raw response from backend (GET booking_spa12):', responseText);
+                        console.log('Response Content-Type (GET booking_spa12):', response.headers.get('Content-Type'));
+                        // --- END New Logging for Debugging ---
+
+                        if (!response.ok) {
+                            console.error(`HTTP error! status: ${response.status}, response: ${responseText}`);
+                            showAlert(`Failed to load bookings from server. Server responded with status ${response.status}. Please check backend logs and ensure data is valid JSON. Response: ${responseText}`);
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        let data;
+                        try {
+                            data = JSON.parse(responseText); // Try parsing the text
+                        } catch (jsonError) {
+                            console.error('JSON parsing error for GET /booking_spa12:', jsonError);
+                            showAlert(`Failed to parse booking data from server. Raw response: ${responseText}. Please check backend's /booking_spa12 endpoint.`);
+                            return []; // Return empty array on JSON parsing error
+                        }
+
+                        console.log('Successfully fetched bookings:', data);
+                        // Sort bookings by date and time, closest to furthest
+                        return data.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+                    } catch (error) {
+                        console.error('Error fetching bookings from API:', error);
+                        // Differentiate between network error (Failed to fetch) and other errors
+                        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                            showAlert('Failed to connect to the backend server. Please ensure your Node.js backend is running at http://localhost:3000.');
+                        } else {
+                            showAlert('Failed to load bookings from server due to an unexpected error. Please check console for details.');
+                        }
+                        return []; // Return empty array on API error
+                    }
+                },
+
+                async add(booking) {
+                    try {
+                        const response = await fetch(`${BASE_API_URL}/booking_spa12`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(booking)
+                        });
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error(`HTTP error! status: ${response.status}, response: ${errorText}`);
+                            showAlert(`Failed to save booking to server. Server responded with status ${response.status}. Please check backend logs.`);
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const newBooking = await response.json();
+                        console.log('Successfully added booking:', newBooking);
+                        return newBooking;
+                    } catch (error) {
+                        console.error('Error adding booking to API:', error);
+                        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                            showAlert('Failed to connect to the backend server to add booking. Please ensure your Node.js backend is running.');
+                        } else {
+                            showAlert('This therapist already has a booking or Day Off. Please choose another date or time.');
+                        }
+                        throw error; // Re-throw to propagate error for further handling
+                    }
+                },
+
+                async cancel(bookingId) {
+                    try {
+                        const response = await fetch(`${BASE_API_URL}/booking_spa12/${bookingId}`, {
+                            method: 'DELETE'
+                        });
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error(`HTTP error! status: ${response.status}, response: ${errorText}`);
+                            showAlert(`Failed to cancel booking on server. Server responded with status ${response.status}. Please check backend logs.`);
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        console.log(`Successfully cancelled booking with ID: ${bookingId}`);
+                        return true; // Indicate success
+                    } catch (error) {
+                        console.error('Error cancelling booking via API:', error);
+                        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                            showAlert('Failed to connect to the backend server to cancel booking. Please ensure your Node.js backend is running.');
+                        } else {
+                            showAlert('There was an error cancelling your booking. Please try again.');
+                        }
+                        throw error; // Re-throw to propagate error for further handling
+                    }
+                }
+            };
+
+            // NEW: Testimonials API abstraction for PostgreSQL backend
+            const TestimonialsAPI = {
+                async add(review) {
+                    try {
+                        const response = await fetch(`${BASE_API_URL}/api/testimonials`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(review)
+                        });
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            console.error(`Error adding review: HTTP error! status: ${response.status}, response:`, errorData);
+                            showAlert(errorData.error || 'Failed to submit review. Please try again.');
+                            throw new Error(errorData.error || 'Failed to submit review via backend.');
+                        }
+                        return await response.json();
+                    } catch (error) {
+                        console.error('Error adding review to API:', error);
+                        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                            showAlert('Failed to connect to the backend server to add review. Please ensure your Node.js backend is running at http://localhost:3000.');
+                        } else {
+                            showAlert('There was an error submitting your review. Please try again.');
+                        }
+                        throw error;
+                    }
+                },
+
+                async getAll() {
+                    try {
+                        const response = await fetch(`${BASE_API_URL}/api/testimonials`);
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            console.error(`Error fetching reviews: HTTP error! status: ${response.status}, response:`, errorData);
+                            showAlert(errorData.error || 'Failed to fetch reviews from backend.');
+                            throw new Error(errorData.error || 'Failed to fetch reviews from backend.');
+                        }
+                        return await response.json();
+                    } catch (error) {
+                        console.error('Error fetching reviews from API:', error);
+                        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                            showAlert('Failed to connect to the backend server to load reviews. Please ensure your Node.js backend is running at http://localhost:3000.');
+                        } else {
+                            showAlert('Failed to load reviews due to an unexpected error. Please check console for details.');
+                        }
+                        return [];
+                    }
+                },
+                // Updated delete method for Testimonials to improve error logging
+                async delete(reviewId) {
+                    try {
+                        const response = await fetch(`${BASE_API_URL}/api/testimonials/${reviewId}`, {
+                            method: 'DELETE'
+                        });
+
+                        // Always read the response body as text first for comprehensive logging
+                        const responseText = await response.text();
+                        console.log('Raw response from backend (DELETE /api/testimonials):', responseText);
+                        console.log('Response Content-Type (DELETE /api/testimonials):', response.headers.get('Content-Type'));
+
+                        if (!response.ok) {
+                            let errorData = { error: 'Unknown error' };
+                            try {
+                                errorData = JSON.parse(responseText); // Try to parse if it's JSON
+                            } catch (jsonError) {
+                                console.warn('Could not parse error response as JSON. Raw text:', responseText);
+                                errorData.error = responseText || `HTTP status: ${response.status}`;
+                            }
+                            console.error(`Error deleting review: HTTP error! status: ${response.status}, response:`, errorData);
+                            showAlert(errorData.error || 'Failed to delete review. Please try again.');
+                            throw new Error(errorData.error || `Failed to delete testimonial from the database. Status: ${response.status}`);
+                        }
+                        console.log(`Successfully deleted testimonial with ID: ${reviewId}`);
+                        return true; // Indicate success
+                    } catch (error) {
+                        console.error('Error deleting review via API:', error);
+                        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                            showAlert('Failed to connect to the backend server to delete review. Please ensure your Node.js backend is running.');
+                        } else {
+                            // If it's an error from the `throw new Error` inside the try block
+                            showAlert(error.message || 'There was an error deleting your review. Please try again.');
+                        }
+                        throw error;
+                    }
+                }
+            };
+
+
+            // Array of services with their details (updated to include multiple prices/durations and therapy names)
+            const services = [
+                {
+                    name_en: "Foot Massage",
+                    name_km: "ម៉ាស្សាជើង",
+                    prices: [{ duration: "60min", amount: "$11" }, { duration: "90min", amount: "$16" }, { duration: "120min", amount: "$20" }],
+                    description_en: "This classic therapy uses finger-point pressure stimulate reflex zones in the feet, which are connected to all parts of the body. It helps clear energy blockages, enhances blood circulation, and is perfect for relieving fatigue after long-distance walking or jogging.",
+                    description_km: "ចំពោះលោកអ្នកដែលមានបញ្ហាឧស្សាហ៍ចុករោយ ផ្នែកកំភួនជើង ឫ បាត ជើងបន្ទាប់ពីការធ្វើដំណើរដោយថ្មើរជើងរយៈពេលយូរការរត់ហាត់ប្រាណ ឬ លេងកីឡាជាដើម ។ល។ ការម៉ាស្សាជើងរបស់យើងផ្តោតលើលំហូរនៃថាមពលក្នុងរាងកាយ ជួយអោយចរន្តឈាមរត់បានស្រួល កាត់ បន្ថយភាពចុករោយ ។",
+                    image: "https://i.postimg.cc/MpbrmQkd/Foot-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Traditional Khmer Massage",
+                    name_km: "ម៉ាស្សាបែបខ្មែរ",
+                    prices: [{ duration: "60min", amount: "$12" }, { duration: "90min", amount: "$17" }, { duration: "120min", amount: "$21" }],
+                    description_en: "Dolphin Spa's Traditional Khmer Massage combines stretching and deep pressure techniques to enhance energy flow, promoting overall health, well-being, and vitality.",
+                    description_km: "ជាការម៉ាស្សាដោយប្រើចុងម្រាមមេដៃទាំងពីរក៏ដូចជាការប្រើបាតដៃសង្កត់ លើ តំបន់ឧស្សាហ៍ងាយចុករោយ នៅ លើ ផ្នែក ជើងទាំងសងខាង ផ្នែកត្រគាក ផ្នែក ខ្នង និង ផ្នែកស្មា។ ការម៉ាស្សាបែបខ្មែរ អាចជួយអោយចរន្តឈាមនៅក្នុងរាង កាយ ដើរបានល្អ ព្រោះ មានការចាប់ពត់ខ្លួន និងការច្របាច់សាច់ដុំ ។ល។ ក្រោយពេលម៉ាស្សាអ្នកនឹងទទួលបានអារម្មណ៍ស្រស់ស្រាយ ស្មារតីភ្លឺស្វាង។",
+                    image: "https://i.postimg.cc/3xDfzGQX/Khmer-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Traditional Khmer Massage with hot balm",
+                    name_km: "ម៉ាស្សាបែបខ្មែរជាមួយប្រេងកូឡា",
+                    prices: [{ duration: "60min", amount: "$13" }, { duration: "90min", amount: "$18" }, { duration: "120min", amount: "$22" }],
+                    description_en: "Dolphin Spa's Traditional Khmer Massage combines stretching and deep pressure techniques to enhance energy flow, promoting overall health, well-being, and vitality.",
+                    description_km: "ជាការម៉ាស្សាដោយប្រើចុងម្រាមមេដៃទាំងពីរក៏ដូចជាការប្រើបាតដៃសង្កត់ លើ តំបន់ឧស្សាហ៍ងាយចុករោយ នៅ លើ ផ្នែក ជើងទាំងសងខាង ផ្នែកត្រគាក ផ្នែក ខ្នង និង ផ្នែកស្មា។ ការម៉ាស្សាបែបខ្មែរប្រើជាមួយប្រេងកូឡា អាចជួយអោយចរន្តឈាមនៅក្នុងរាង កាយ ដើរបានល្អ ព្រោះ មានការចាប់ពត់ខ្លួន និងការច្របាច់សាច់ដុំ ។ល។ ក្រោយពេលម៉ាស្សាអ្នកនឹងទទួលបានអារម្មណ៍ស្រស់ស្រាយ ស្មារតីភ្លឺស្វាង។",
+                    image: "https://i.postimg.cc/R0C6NjQX/Hot-balm-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Back, Chest, Head and Shoulder Massage",
+                    name_km: "ម៉ាស្សាខ្នង ដើមទ្រូង ក្បាល និងស្មា",
+                    prices: [{ duration: "60min", amount: "$13" }, { duration: "90min", amount: "$18" }, { duration: "120min", amount: "$22" }],
+                    description_en: "This natural oil massage boosts circulation and enhances energy flow. Targeting the back, chest, head, and shoulders, the therapist releases muscle tension and promotes deep relaxation. The therapeutic touch also supports the nervous system and alleviates stress.",
+                    description_km: "ជាការម៉ាស្សា ដែល ស្រដៀងនឹងការម៉ាស្សា ប្រេង អារ៉ូម៉ា ដែរ តែយើងផ្តោតសំខាន់នៅផ្នែកខាង លើ នៃរាងកាយ រួមមាន ផ្នែកខ្នង ដើមទ្រូង ក្បាល និង ផ្នែកស្មារបស់ភ្ញៀវ ។ វាជួយអោយអាការៈចុករោយ នៅតំបន់ទាំងនោះឆាប់បានធូរស្បើយ និងមានអារម្មណ៍ស្រស់ស្រាយ ក្រោយពេលម៉ាស្សា ។",
+                    image: "https://i.postimg.cc/XvX2GbmQ/Back-Chest-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Aroma Therapy Massage (Signature)",
+                    name_km: "ម៉ាស្សាប្រេង អារ៉ូម៉ា (ប្រចាំហាង)",
+                    prices: [{ duration: "60min", amount: "$13" }, { duration: "90min", amount: "$18" }, { duration: "120min", amount: "$22" }],
+                    description_en: "Our signature full-body oil massage is designed to de-stress and uplift your spirit with a gentle, aromatic scent. Using expert techniques, our therapist enhances energy flow, improves circulation, deeply relaxes muscles, and relieves tension-nurturing both mind and body.",
+                    description_km: "នេះ ជាការម៉ាស្សាពេញមួយតួខ្លួនដោយ ប្រើប្រេងមានក្លិន អារ៉ូម៉ា ផ្សេងៗតាមចំណង់ចំណូលចិត្តរបស់ភ្ញៀវ។ ការម៉ាស្សាប្រេង អារ៉ូម៉ាមានអត្ថប្រយោជន៍ជា ច្រើនដល់សុខុមាលភាពរបស់មនុស្សទូទៅព្រោះ វា ធ្វើអោយចរន្តឈាម នៅ ក្នុង រាងកាយ ដើរបានល្អ កាត់បន្ថយភាពនឿយហត់ពីការងារ អារម្មណ៍ ល្ហែល្ហើយ ពេលកំពុងម៉ាស្សា។",
+                    image: "https://i.postimg.cc/5ttyx8br/Aroma-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Deep Tissue Massage",
+                    name_km: "ម៉ាស្សាប្រេង ចាប់សរសៃ",
+                    prices: [{ duration: "60min", amount: "$14" }, { duration: "90min", amount: "$20" }, { duration: "120min", amount: "$25" }],
+                    description_en: "Designed for maximum therapeutic benefit, this massage uses moderate to deep pressure from the elbows to target specific muscle groups. It helps release muscle spasms, relieve tension, and ease repetitive stress. Highly recommended after intense workouts or for acute muscle pain.",
+                    description_km: "ជា ការម៉ាស្សា ពេញមួយតួខ្លួន ដោយ ប្រើ ប្រេង ការម៉ាស្សា ប្រេងចាប់សរសៃ ជា ការម៉ាស្សា ដោយ ប្រើ ផ្នែក កែង ដៃសង្កត់រុញនៅលើតំបន់សរសៃពួរធំៗ លើ រាងកាយ រួមមាន ផ្នែក ខ្នង ផ្នែកស្មា ផ្នែកកំភួនជើង ផ្នែកត្រគាក ។ល។ កា រ ម៉ាស្សា នេះ សក្តិសមសម្រាប់អ្នកចូលចិត្តកំលាំងធ្ងន់ និងអ្នកឧស្សាហ៍ មានភាពចុករោយយូរអង្វែង នៅតំបន់ណាមួយ នៃរាងកាយ ។",
+                    image: "https://i.postimg.cc/28FSh05J/Deep-Tissue-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Two Hand Hot Stones Therapy",
+                    name_km: "ម៉ាស្សាប្រេង និងថ្មក្តៅ ដៃពីរ",
+                    prices: [{ duration: "90min", amount: "$23" }, { duration: "120min", amount: "$29" }],
+                    description_en: "Experience profound relaxation with our Hot Stones Therapy. Smooth, heated stones are placed on key energy points and used by the therapist to glide over muscles, melting away tension and promoting a sense of deep calm and warmth throughout your body.",
+                    description_km: "ទទួលបានបទពិសោធន៍នៃការសំរាកលំហែយ៉ាងជ្រាលជ្រៅជាមួយនឹងការព្យាបាលដោយថ្មក្តៅរបស់យើង។ ថ្មក្តៅរលោងត្រូវបានដាក់នៅលើចំណុចថាមពលសំខាន់ៗ ហើយត្រូវបានប្រើប្រាស់ដោយអ្នកព្យាបាលដើម្បីរំកិលលើសាច់ដុំ បំបាត់ភាពតានតឹង និងជំរុញអារម្មណ៍ស្ងប់ស្ងាត់ និងភាពកក់ក្តៅទូទាំងរាងកាយរបស់អ្នក។",
+                    image: "https://i.postimg.cc/D0QnQz7s/Hot-stone-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Two Hand Herbal Warm Compression",
+                    name_km: "ម៉ាស្សាស្អំ Herbal ដៃពីរ",
+                    prices: [{ duration: "90min", amount: "$24" }, { duration: "120min", amount: "$30" }],
+                    description_en: "Dolphin Herbal Compress Massage blends therapeutic benefits of aromatherapy with the soothing warmth of a heated herbal compress. This treatment purifies, relaxes, relieves aches and pains, improves blood circulation, and stimulates the senses.",
+                    description_km: "ចាប់ផ្ដើមជាមួយ ការម៉ាស្សាពេញមួយតួខ្លួន ដោយ ប្រើប្រេង អារ៉ូម៉ា បន្ទាប់មកយើងប្រើវិធី ស្អំ ដែលផ្សំចេញពីឱសថឫសឈើធម្មជាតិមួយរយភាគរយ។ ការម៉ាស្សា ដោយការស្អំត្រូវបានគេជឿជាក់ថាមានអត្ថប្រយោជន៍ច្រើនអាចជួយអោយរាងកាយបាត់ភាពចុករោយ ប្រព័ន្ធរំលាយអាហារដំណើរការបាន ល្អ កាត់បន្ថយសំពាធតានតឹង និង ធ្វើ អោយ គេងលក់ស្កប់ស្កល់។",
+                    image: "https://i.postimg.cc/7ZZw7DdG/Compression-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Four Hand Aroma Therapy (Signature)",
+                    name_km: "ម៉ាស្សាប្រេង អារ៉ូម៉ា ដៃបួន (ប្រចាំហាង)",
+                    prices: [{ duration: "60min", amount: "$22" }, { duration: "90min", amount: "$32" }, { duration: "120min", amount: "$40" }],
+                    description_en: "Indulge in a luxurious 4-hands massage, where two therapists work in perfect harmony to create a seamless, rhythmic experience. This treatment offers deep relaxation and an immersive sensory journey.",
+                    description_km: "ជាការម៉ាស្សាពេញមួយតួខ្លួនដោយប្រើប្រេង អារ៉ូម៉ា ។ ការម៉ាស្សា ដៃបួន ពិតជាពិសេសប្លែកពីការម៉ាស្សាទូទៅ ព្រោះទាមទារអោយបុគ្គលិកម៉ាស្សាទាំងពីរនាក់ធ្វើការស៊ីសង្វាក់គ្នា។សូមកទទួលយកនូវបទពិសោធន៍ម៉ាស្សា ដៃ បួន ដ៏ អស្ចារ្យ មាននៅ ដូហ្វីនស្លា តែមួយគត់។",
+                    image: "https://i.postimg.cc/rwZjLHsW/Four-Hand-Oil-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Four Hot Stones Therapy",
+                    name_km: "ម៉ាស្សាប្រេង និងថ្មក្តៅ ដៃបួន",
+                    prices: [{ duration: "60min", amount: "$28" }, { duration: "90min", amount: "$38" }, { duration: "120min", amount: "$46" }],
+                    description_en: "This unique massage uses specialized techniques to relieve deep tension. Warm stones, healing hands, and essential oils work together to ease tight muscles, enhance mobility, and harmonize the mind-promoting restful sleep.",
+                    description_km: "ជាការម៉ាស្សាពេញមួយតួខ្លួន ដោយ ប្រើ ប្រេង បន្ទាប់មកយើងប្រើថ្មក្តៅអ៊ុនៗ ដើម្បីជួយសម្រួលតំបន់សាច់ដុំដែលមានសភាពរុញពីលើរាងកាយបន្ថែមតានតឹង។ ការម៉ាស្សាថ្ម អាចជួយធ្វើអោយ អារម្មណ៍សម្រាកលំហែរ កាត់ បន្ថយភាពស្ត្រេស ភាពនឿយហត់ក្នុងជីវភាពប្រចាំថ្ងៃយ៉ាងមានប្រសិទ្ធភាព។ ",
+                    image: "https://i.postimg.cc/D0QnQz7s/Hot-stone-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Four Hand Herbal Warm Compression",
+                    name_km: "ម៉ាស្សាស្អំ Herbal ដៃបួន",
+                    prices: [{ duration: "60min", amount: "$29" }, { duration: "90min", amount: "$39" }, { duration: "120min", amount: "$47" }],
+                    description_en: "Dolphin Herbal Compress Massage blends therapeutic benefits of aromatherapy with the soothing warmth of a heated herbal compress. This treatment purifies, relaxes, relieves aches and pains, improves blood circulation, and stimulates the senses.",
+                    description_km: "ចាប់ផ្ដើមជាមួយ ការម៉ាស្សាពេញមួយតួខ្លួន ដោយ ប្រើប្រេង អា រ៉ូម៉ា បន្ទាប់មក យើ ង ប្រើ វិធី ស្អំ ដែលផ្សំចេញពីឱសថឫសឈើធម្មជាតិមួយរយភាគរយ។ ការម៉ាស្សា ដោយការស្អំត្រូវបានគេជឿជាក់ថាមានអត្ថប្រយោជន៍ច្រើនអាចជួយអោយរាងកាយបាត់ភាពចុករោយ ប្រព័ន្ធរំលាយអាហារដំណើរការបាន ល្អ កាត់បន្ថយសំពាធតានតឹង និង ធ្វើ អោយ គេងលក់ស្កប់ស្កល់។",
+                    image: "https://i.postimg.cc/7ZZw7DdG/Compression-massage.jpg",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Foot Reflexology 30mins + Traditional Khmer Massage 60mins",
+                    name_km: "ម៉ាស្សាជើង 30នាទី + ម៉ាស្សាបែបខ្មែរ 60នាទី",
+                    prices: [{ duration: "90min", amount: "$17" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/525HBQdt/Foot-Khmer.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Foot Reflexology 30mins + Aroma Therapy 60mins",
+                    name_km: "ម៉ាស្សាជើង 30នាទី + ម៉ាស្សាប្រេងអារ៉ូម៉ា 60នាទី",
+                    prices: [{ duration: "90min", amount: "$18" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/2y3cvf1z/Untitled-design-1.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Foot Reflexology 60mins + Traditional Khmer Massage 60mins",
+                    name_km: "ម៉ាស្សាជើង 60នាទី + ម៉ាស្សាបែបខ្មែរ 60នាទី",
+                    prices: [{ duration: "120min", amount: "$22" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/525HBQdt/Foot-Khmer.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Foot Reflexology 60mins + Aroma Therapy 60mins",
+                    name_km: "ម៉ាស្សាជើង 60នាទី + ម៉ាស្សាប្រេងអារ៉ូម៉ា 60នាទី",
+                    prices: [{ duration: "120min", amount: "$23" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/2y3cvf1z/Untitled-design-1.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Traditional Khmer Massage 60mins + Aroma Therapy 60mins",
+                    name_km: "ម៉ាស្សាខ្មែរបុរាណ 60នាទី + ម៉ាស្សាប្រេងអារ៉ូម៉ា 60នាទី",
+                    prices: [{ duration: "120min", amount: "$24" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/SxmZ782T/Untitled-design-2.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Traditional Khmer Massage 60mins + Deep Tissue Therapy 60mins",
+                    name_km: "ម៉ាស្សាខ្មែរបុរាណ 60នាទី + ម៉ាស្សាប្រេងចាប់សរសៃ 60នាទី",
+                    prices: [{ duration: "120min", amount: "$25" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/52PmBrMy/Untitled-design-3.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Traditional Khmer Massage 60mins + Hot Stone Therapy 90mins",
+                    name_km: "ម៉ាស្សាបែបខ្មែរ 60នាទី + ម៉ាស្សាប្រេង ថ្មក្តៅ 90នាទី",
+                    prices: [{ duration: "150min", amount: "$34" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/MTYHBhhr/Untitled-design-4.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                },
+                {
+                    name_en: "Traditional Khmer Massage 60mins + Warm Compression 90mins",
+                    name_km: "ម៉ាស្សាបែបខ្មែរ 60នាទី + ម៉ាស្សាស្អំ Herbal 90នាទី",
+                    prices: [{ duration: "150min", amount: "$35" }],
+                    description_en: "",
+                    description_km: "",
+                    image: "https://i.postimg.cc/HL9dvbBr/Untitled-design-5.png",
+                    therapyNames: [" ", "Mr.Duong", "Mr.Sali", "Ms.SreyNeth", "Ms.SreyOun"]
+                }
+            ];
+
+            let selectedService = null;
+            let selectedDuration = null; // New variable to store selected duration
+            let selectedTherapyName = null; // New variable to store selected therapy name
+            let bookings = []; // This will now be populated by API calls
+
+            const sections = document.querySelectorAll('section.section'); // Select all sections with the class 'section'
+            const navLinks = document.querySelectorAll('.tab'); // Select all tabs
+            const mobileMenu = document.getElementById('menuListMobile');
+            // const saveBookingPictureLabel = document.getElementById('saveBookingPictureLabel'); // Removed
+            // const saveBookingLoadingSpinner = document.getElementById('saveBookingLoadingSpinner'); // Removed
+
+            // Function to show a specific section and hide others
+            window.showSection = function (sectionId) {
+                // Clear any existing timeout when changing sections
+                if (bookingDisplayTimeout) {
+                    clearTimeout(bookingDisplayTimeout);
+                    bookingDisplayTimeout = null;
+                }
+
+                sections.forEach(section => {
+                    section.classList.add('hidden');
+                });
+                document.getElementById(sectionId).classList.remove('hidden');
+
+                // Update active class for navigation links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                // Handle both desktop and mobile navigation links
+                let targetTabId = sectionId.replace('Section', 'Tab');
+                let targetTabMobileId = sectionId.replace('Section', 'Tab') + 'Mobile';
+
+                // Explicitly activate "Our Story" or "All Services" and their parents
+                if (sectionId === 'aboutSection') { // For "Our Story" or the About Us section itself
+                    const aboutUsDesktopTab = document.getElementById('aboutTab');
+                    if (aboutUsDesktopTab) aboutUsDesktopTab.classList.add('active');
+                    const aboutUsMobileTab = document.getElementById('aboutTabMobile');
+                    if (aboutUsMobileTab) {
+                        aboutUsMobileTab.classList.add('active');
+                    }
+                } else if (sectionId === 'servicesSection') { // For "All Services"
+                    const servicesDesktopTab = document.getElementById('servicesTab');
+                    if (servicesDesktopTab) servicesDesktopTab.classList.add('active');
+                    const servicesMobileTab = document.getElementById('servicesTabMobile');
+                    if (servicesMobileTab) {
+                        servicesMobileTab.classList.add('active');
+                    }
+                } else if (sectionId === 'trainingSection') { // For "Our Training"
+                    const trainingDesktopTab = document.getElementById('trainingTab');
+                    if (trainingDesktopTab) trainingDesktopTab.classList.add('active');
+                    const trainingMobileTab = document.getElementById('trainingTabMobile');
+                    if (trainingMobileTab) trainingTabMobile.classList.add('active');
+                } else if (sectionId === 'pictureTherapySection') { // For "Therapy"
+                    const pictureTherapyDesktopTab = document.getElementById('pictureTherapyTab');
+                    if (pictureTherapyDesktopTab) pictureTherapyDesktopTab.classList.add('active');
+                    const pictureTherapyMobileTab = document.getElementById('pictureTherapyTabMobile');
+                    if (pictureTherapyMobileTab) pictureTherapyMobileTab.classList.add('active');
+                } else {
+                    // For all other direct tabs (Home, Your Bookings, Testimonials, Contact Us)
+                    const activeTabDesktop = document.getElementById(targetTabId);
+                    if (activeTabDesktop) activeTabDesktop.classList.add('active');
+                    const activeTabMobile = document.getElementById(targetTabMobileId);
+                    if (activeTabMobile) activeTabMobile.classList.add('active');
+
+                    // If testimonials section is shown, render testimonials
+                    if (sectionId === 'testimonialsSection') {
+                        renderTestimonials();
+                    } else if (sectionId === 'viewBookingsSection') {
+                        // If "Your Bookings" section is shown, render bookings and set the auto-clear timer
+                        renderBookings();
+                    }
+                }
+
+                // Hide mobile menu after selection
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+
+                // Scroll to the top of the section
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            // Toggle mobile menu visibility
+            window.toggleMenu = function () {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex-col'); // Add flex-col for vertical stacking
+                // The absolute positioning is already in CSS for mobileMenu
+            };
+
+            // Toggle mobile sub-menu visibility
+            window.toggleMobileSubmenu = function (event, submenuId) {
+                event.stopPropagation(); // Prevent the main nav link click from firing
+                const submenu = document.getElementById(submenuId);
+                submenu.classList.toggle('show');
+                // Adjust max-height for smooth transition
+                if (submenu.classList.contains('show')) {
+                    submenu.style.maxHeight = submenu.scrollHeight + "px";
+                } else {
+                    submenu.style.maxHeight = null;
+                }
+            };
+
+            // Initial services display
+            function renderServices() {
+                const servicesContainer = document.getElementById('servicesContainer');
+                servicesContainer.innerHTML = ''; // Clear previous content
+                services.forEach(service => {
+                    const serviceCard = document.createElement('div');
+                    serviceCard.className = 'bg-white rounded-xl overflow-hidden card-shadow-lg p-6 flex flex-col items-center text-center cursor-pointer';
+
+                    // Display all prices and durations if multiple
+                    let pricesHtml = '';
+                    if (service.prices && service.prices.length > 0) {
+                        pricesHtml = service.prices.map(p => `<span class="text-[#545120] font-bold text-xl">${p.duration}: ${p.amount}</span>`).join('<br>');
+                    } else {
+                        pricesHtml = `<span class="text-[#545120] font-bold text-xl">${translations[currentLang].priceUponInquiry || 'Price upon inquiry'}</span>`; // Fallback with translation
+                    }
+
+                    // Use the correct language name and description
+                    const serviceName = service['name_' + currentLang] || service.name_en;
+                    const descriptionText = service['description_' + currentLang] || service.description_en;
+
+                    serviceCard.innerHTML = `
+                        <img src="${service.image}" alt="${service.name_en}" class="w-full h-48 object-cover rounded-lg mb-4 transform transition-transform duration-300 hover:scale-105">
+                        <h3 class="text-2xl font-semibold text-[#545120] mb-2">${serviceName}</h3>
+                        <p class="text-gray-600 mb-4 flex-grow">${descriptionText.substring(0, 100)}...</p>
+                        ${pricesHtml}
+                        <button class="mt-4 px-6 py-2 btn-gradient text-white font-semibold rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7d7936] focus:ring-opacity-75" data-i18n="viewDetailsBtn">View Details</button>
+                    `;
+                    serviceCard.querySelector('[data-i18n="viewDetailsBtn"]').textContent = translations[currentLang].viewDetailsBtn || "View Details"; // Translate button
+                    serviceCard.addEventListener('click', () => showServiceDetail(service));
+                    servicesContainer.appendChild(serviceCard);
+                });
+            }
+
+            // Show service detail
+            function showServiceDetail(service) {
+                selectedService = service;
+                selectedDuration = null; // Reset selected duration when viewing a new service
+                selectedTherapyName = null; // Reset selected therapy name
+                const serviceDetailContainer = document.getElementById('serviceDetail');
+
+                // Use the correct language name and description for the full text
+                const serviceName = service['name_' + currentLang] || service.name_en;
+                const descriptionText = service['description_' + currentLang] || service.description_en;
+
+                serviceDetailContainer.innerHTML = `
+                    <div class="lg:w-1/2">
+                        <img src="${service.image}" alt="${service.name_en}" class="w-full h-auto rounded-lg shadow-md mb-6 lg:mb-0">
+                    </div>
+                    <div class="lg:w-1/2 text-left">
+                        <h2 class="text-4xl font-bold text-[#545120] mb-4">${serviceName}</h2>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6">${descriptionText}</p>
+                        <div class="mb-4" id="servicePriceOptions">
+                            ${service.prices.map((p, index) => `
+                                <label class="inline-flex items-center mr-4 mb-2">
+                                    <input type="radio" class="form-radio text-[#545120] h-5 w-5" name="serviceDuration" value="${p.duration}" data-price="${p.amount}" ${index === 0 ? 'checked' : ''}>
+                                    <span class="ml-2 text-xl font-semibold text-gray-800">${p.duration}: <span class="text-[#545120]">${p.amount}</span></span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <!-- Therapy Name Options for Service Detail - Removed from here as per user request -->
+                        <!-- This section was previously responsible for showing therapy names in service detail, now removed based on request. -->
+                    </div>
+                `;
+
+                // Set initial selected duration based on the first option
+                if (service.prices && service.prices.length > 0) {
+                    selectedDuration = service.prices[0];
+                }
+
+                // In the service detail, we don't display a therapy selection combobox anymore
+                // The `selectedTherapyName` will be set to null here, and only populated in the booking form.
+                selectedTherapyName = null;
+
+                // Add event listener for radio buttons to update selectedDuration
+                document.querySelectorAll('input[name="serviceDuration"]').forEach(radio => {
+                    radio.addEventListener('change', function () {
+                        selectedDuration = {
+                            duration: this.value,
+                            amount: this.dataset.price
+                        };
+                    });
+                });
+
+                showSection('detailSection');
+            }
+
+            // Handle booking form submission
+            document.getElementById('bookingForm').addEventListener('submit', async function (event) { // Added async here
+                event.preventDefault();
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const datetimeInput = document.getElementById('datetime').value;
+                const bookingStart = new Date(datetimeInput);
+
+                // ✅ normalize so Phone & PC match
+                const fixedDatetime = toLocalISOString(bookingStart);
+                
+
+
+                // Capture remark fields
+                const aromaOil = document.getElementById('aromaOil')?.value || '';
+                const pressure = document.querySelector('input[name="pressure"]:checked')?.value || '';
+                const focusArea = document.getElementById('focusArea')?.value || '';
+                const avoidArea = document.getElementById('avoidArea')?.value || '';
+
+
+                // Debugging: Log the values before comparison
+                const bookingTime = new Date(datetime);
+                const currentTime = new Date();
+                console.log('Current Time:', currentTime.toLocaleString());
+                console.log('Selected Booking Time:', bookingTime.toLocaleString());
+                console.log('Is selected time <= current time?', bookingTime <= currentTime);
+
+
+                if (selectedService && selectedDuration) {
+                    if (bookingTime <= currentTime) {
+                        showAlert(translations[currentLang].pastBookingAlert || 'Please select a future date and time for your booking.');
+                        return;
+                    }
+
+                    // Get the selected therapy name from the form if the group is visible
+                    const therapyNameInput = document.getElementById('therapyName');
+                    // Capture the selected therapy name from the dropdown if it's visible and a value is selected
+                    const finalTherapyName = therapyNameInput && !therapyNameInput.closest('#therapyNameGroup').classList.contains('hidden') ? therapyNameInput.value : null;
+
+
+                    showConfirm(`${translations[currentLang].confirmBookingPrefix} ${selectedService['name_' + currentLang] || selectedService.name_en}${finalTherapyName ? ' - ' + finalTherapyName : ''} (${selectedDuration.duration}) ${translations[currentLang].confirmBookingOn} ${formatDateTime(datetime)}?`, async function (response) { // Added async here, used formatDateTime
+                        if (response) {
+                            try {
+                                const newBooking = {
+                                    service: selectedService.name_en, // Always send English name to backend
+                                    duration: selectedDuration.duration,
+                                    price: selectedDuration.amount,
+                                    name: name,
+                                    phone: phone,
+                                    datetime: fixedDatetime,
+                                    aromaOil: aromaOil, // Add aroma oil
+                                    pressure: pressure, // Add pressure
+                                    focusArea: focusArea, // Add focus area
+                                    avoidArea: avoidArea, // Add avoid area
+                                    therapyName: finalTherapyName, // Include the selected therapy name
+                                    // booking_time is not sent to backend, backend will set its own timestamp.
+                                    // payment_status is also defaulted by backend.
+                                    payment_status: "pending" // Set payment status to pending as there's no QR step
+                                };
+                                // fetch('/booking_spa12', {
+                                //     method: 'POST',
+                                //     headers: { 'Content-Type': 'application/json' },
+                                //     body: JSON.stringify(bookingData)
+                                // });
+                                const addedBooking = await BookingsAPI.add(newBooking); // Call API to add booking
+
+                                // Directly show bookings and render them without a payment QR step
+                                showAlert('Booking confirmed! Payment status is pending.'); // Inform user about pending payment
+                                document.getElementById('bookingForm').reset();
+                                showSection('viewBookingsSection'); // Navigate to view bookings
+                                // renderBookings() will be called by showSection, which will then set the timer.
+
+                            } catch (error) {
+                                console.error('Error during booking confirmation:', error);
+                                // showAlert is already called by BookingsAPI.add on error
+                            }
+                        } else {
+                            showAlert(translations[currentLang].bookingCancelled || 'Booking cancelled.');
+                        }
+                    });
+                } else {
+                    showAlert(translations[currentLang].selectServiceDurationAlert || 'Please select a service and a duration before booking.');
+                }
+            });
+
+            // Function to save the booking picture
+            window.saveBookingPicture = async function (elementToCapture) {
+                // elementToCapture is now the specific listItem element
+                const saveIconButton = elementToCapture.querySelector('.save-icon-button');
+                const icon = saveIconButton.querySelector('i');
+                const spinner = saveIconButton.querySelector('.loading-spinner-small');
+
+                if (!elementToCapture) {
+                    showAlert('No booking element to save.');
+                    return;
+                }
+
+                // Hide the icon and show spinner
+                icon.classList.add('hidden');
+                spinner.classList.remove('hidden');
+                spinner.style.display = 'inline-block'; // Ensure it's inline
+
+                try {
+                    // Use html2canvas to capture the specific booking list item
+                    const canvas = await html2canvas(elementToCapture, {
+                        scale: 2, // Increase scale for better quality
+                        useCORS: true, // Needed if there are images from different origins
+                        backgroundColor: '#fcfbfb', // Match body background for consistency
+                    });
+
+                    // Convert canvas to image data URL
+                    const imageDataURL = canvas.toDataURL('image/png');
+
+                    // Create a temporary link element
+                    const link = document.createElement('a');
+                    link.href = imageDataURL;
+                    link.download = `DolphinSpa_Booking_${elementToCapture.id}.png`; // Suggested filename with booking ID
+
+                    // Programmatically click the link to trigger download
+                    document.body.appendChild(link); // Append to body to ensure it's in the DOM
+                    link.click();
+                    document.body.removeChild(link); // Clean up the temporary link
+
+                    showAlert('Booking picture saved to your device!');
+                } catch (error) {
+                    console.error('Error capturing or saving booking picture:', error);
+                    showAlert('Failed to save booking picture. Please try again or check console for details.');
+                } finally {
+                    // Hide spinner and show icon again
+                    spinner.classList.add('hidden');
+                    icon.classList.remove('hidden');
+                }
+            };
+
+
+            // Render bookings in the "Your Bookings" section
+            async function renderBookings() { // Added async here
+                const bookingList = document.getElementById('bookingList');
+                // const saveLabel = document.getElementById('saveBookingPictureLabel'); // Removed
+                // const loadingSpinner = document.getElementById('saveBookingLoadingSpinner'); // Removed
+                bookingList.innerHTML = ''; // Clear previous bookings
+
+                // Clear any existing timeout before rendering new bookings
+                if (bookingDisplayTimeout) {
+                    clearTimeout(bookingDisplayTimeout);
+                    bookingDisplayTimeout = null;
+                }
+
+                // Fetch bookings from API
+                bookings = await BookingsAPI.getAll();
+
+                if (bookings.length === 0) {
+                    bookingList.innerHTML = `<li class="bg-white p-6 rounded-xl card-shadow-lg text-center text-gray-600">${translations[currentLang].noBookingsYet || 'No bookings yet. Why not book a relaxing session?'}</li>`;
+                    // saveLabel.style.display = 'none'; // Removed
+                    return;
+                }
+
+                // Get only the last booking
+                const lastBooking = bookings[bookings.length - 1];
+
+                // Find the service object to get its translated name for display
+                const serviceObj = services.find(s => s.name_en === lastBooking.service);
+                const displayedServiceName = serviceObj ? (serviceObj['name_' + currentLang] || serviceObj.name_en) : lastBooking.service;
+
+                const listItem = document.createElement('li');
+                // Add relative positioning to the list item for absolute positioning of the icon
+                listItem.className = 'bg-white p-6 rounded-xl card-shadow-lg flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 relative'; // Added 'relative'
+                listItem.id = `booking-${lastBooking.id}`; // Add an ID to the list item for html2canvas targeting
+                const { formattedDate, formattedTime } = formatDateAndTime(lastBooking.datetime);
+                const isToday = new Date(lastBooking.datetime).toDateString() === new Date().toDateString();
+                const dateColor = 'font-bold text-orange-500';
+                listItem.innerHTML = `
+                    <div>
+                        <p class="text-lg font-semibold text-[#545120]">${displayedServiceName}${lastBooking.therapy_name ? ' - ' + lastBooking.therapy_name : ''} (${lastBooking.duration})</p>
+                        <p class="text-gray-700">${translations[currentLang].priceLabel || 'Price'}: ${lastBooking.price}</p>
+                        <p class="text-gray-700">${translations[currentLang].nameLabel || 'Name'}: ${lastBooking.name}</p>
+                        <p class="text-gray-700">${translations[currentLang].phoneLabel || 'Phone'}: ${lastBooking.phone}</p>
+                        <p class="text-gray-700"> ${translations[currentLang].dateLabel || 'Date'}:<span class="${dateColor}">${formattedDate}</span></p>
+                        <p class="text-gray-700">${translations[currentLang].timeLabel || 'Time'}:<span class="font-bold text-orange-400">${formattedTime}</span></p>
+                        <p class="text-gray-700">${translations[currentLang].aromaOil || 'Aroma Oil'}: ${lastBooking.aroma_oil}</p>
+                        <p class="text-gray-700">${translations[currentLang].pressure || 'Pressure'}: ${lastBooking.pressure}</p>
+                        <p class="text-gray-700">${translations[currentLang].bodyFocus || 'Focus Area'}: ${lastBooking.focus_area}</p>
+                        <p class="text-gray-700">${translations[currentLang].bodyAvoid || 'Focus Avoid'}: ${lastBooking.focus_area}</p>
+                        <p class="text-gray-700">${translations[currentLang].paymentStatusLabel || 'Payment Status'}: <span class="font-bold ${lastBooking.payment_status === 'pending' ? 'text-orange-500' : 'text-green-600'}">${lastBooking.payment_status || translations[currentLang].notApplicable || 'N/A'}</span></p>
+                        <p class="text-gray-700 text-sm">${translations[currentLang].bookedOnLabel || 'Booked On'}: ${new Date(lastBooking.booking_time).toLocaleString()}</p>
+                    </div>
+                    <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                        <button class="save-icon-button text-[#545120] text-2xl hover:text-[#7d7936] transition-colors duration-200" data-booking-id="${lastBooking.id}">
+                            <i class="fas fa-download text-[#545120] text-2xl mb-60" style="position: relative; left: 75px;"></i>
+                            <span class="inline-block loading-spinner-small ml-2 hidden"></span>
+                        </button>
+                        <button class="px-5 py-2 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400" data-id="${lastBooking.id}">${translations[currentLang].cancelBtn || 'Cancel'}</button>
+                    </div>
+                `;
+                bookingList.appendChild(listItem);
+
+                // Attach event listener to the newly created save icon button
+                const saveIconButton = listItem.querySelector('.save-icon-button');
+                saveIconButton.addEventListener('click', function () {
+                    // Pass the specific list item element to the save function
+                    saveBookingPicture(listItem);
+                });
+
+                listItem.querySelector('button[data-id]').addEventListener('click', function () {
+                    const bookingId = this.dataset.id; // Use data-id for actual ID from DB
+                    showConfirm(translations[currentLang].confirmCancelBooking || 'Are you sure you want to cancel this booking?', async function (response) {
+                        if (response) {
+                            try {
+                                await BookingsAPI.cancel(bookingId);
+                                showAlert(translations[currentLang].bookingCancelledSuccessfully || 'Booking cancelled successfully.');
+                                renderBookings(); // Re-render the list
+                            } catch (error) {
+                                console.error('Error during booking cancellation:', error);
+                            }
+                        }
+                    });
+                });
+
+                // Set a timeout to clear the booking list after 15 seconds
+                bookingDisplayTimeout = setTimeout(() => {
+                    bookingList.innerHTML = `<li class="bg-white p-6 rounded-xl card-shadow-lg text-center text-gray-600">${translations[currentLang].noBookingsYet || 'No bookings yet. Why not book a relaxing session?'}</li>`;
+                    bookingDisplayTimeout = null; // Clear the timeout ID after it fires
+                }, 15000);
+            }
+
+            // Testimonials Functions
+            async function addReview(reviewData) {
+                try {
+                    await TestimonialsAPI.add(reviewData); // Use the new TestimonialsAPI
+                    showAlert("Thank you for your review!");
+                    document.getElementById('reviewForm').reset();
+                    // Uncheck all radio buttons for rating
+                    document.querySelectorAll('.star-rating input[type="radio"]').forEach(radio => radio.checked = false);
+                    renderTestimonials(); // Re-render to show the new review
+                } catch (e) {
+                    console.error("Error adding review: ", e);
+                    // showAlert is already called by TestimonialsAPI.add on error
+                }
+            }
+
+            // New function to delete a review
+            async function deleteReview(reviewId) {
+                showConfirm(translations[currentLang].confirmDeleteReview || 'Are you sure you want to delete this review?', async function (response) {
+                    if (response) {
+                        try {
+                            await TestimonialsAPI.delete(reviewId);
+                            showAlert(translations[currentLang].reviewDeletedSuccessfully || 'Review deleted successfully.');
+                            renderTestimonials(); // Re-render to update the list
+                        } catch (error) {
+                            console.error("Error deleting review: ", error);
+                            // showAlert is already called by TestimonialsAPI.delete on error
+                        }
+                    }
+                });
+            }
+
+            function updateStarDisplay(elementId, rating) {
+                const container = document.getElementById(elementId);
+                if (!container) return;
+                let starsHtml = '';
+                // Ensure rating is within bounds (1-5) and a number
+                const clampedRating = Math.max(0, Math.min(5, parseFloat(rating) || 0));
+
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= clampedRating) {
+                        starsHtml += '<i class="fas fa-star"></i>'; // Full star
+                    } else if (i - 0.5 < clampedRating && clampedRating < i) { // Check for half star
+                        starsHtml += '<i class="fas fa-star-half-alt"></i>'; // Half star
+                    }
+                    else {
+                        starsHtml += '<i class="far fa-star"></i>'; // Empty star
+                    }
+                }
+                container.innerHTML = starsHtml;
+            }
+
+            async function renderTestimonials() {
+                const reviewsList = document.getElementById('reviewsList');
+                const noReviewsMessage = document.getElementById('noReviewsMessage');
+                const overallRatingDisplay = document.getElementById('overallRatingDisplay');
+                const totalReviewsCountSpan = document.getElementById('totalReviewsCount'); // Used for the first number in the sentence
+                const numReviewsSpan = document.getElementById('numReviews'); // Used for the second number in the sentence
+
+                const barExcellent = document.getElementById('barExcellent');
+                const percentExcellent = document.getElementById('percentExcellent');
+                const barVeryGood = document.getElementById('barVeryGood');
+                const percentVeryGood = document.getElementById('percentVeryGood');
+                const barAverage = document.getElementById('barAverage');
+                const percentAverage = document.getElementById('percentAverage');
+                const barPoor = document.getElementById('barPoor');
+                const percentPoor = document.getElementById('percentPoor');
+                const barTerrible = document.getElementById('barTerrible');
+                const percentTerrible = document.getElementById('percentTerrible');
+
+                const reviews = await TestimonialsAPI.getAll(); // Fetch reviews from backend
+
+                reviewsList.innerHTML = ''; // Clear previous reviews
+                let totalRating = 0;
+                let ratingCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+                if (reviews.length === 0) {
+                    noReviewsMessage.classList.remove('hidden');
+                    overallRatingDisplay.textContent = '0.0';
+                    updateStarDisplay('overallStarsDisplay', 0);
+                    totalReviewsCountSpan.textContent = '0.0'; // Updated for clarity
+                    numReviewsSpan.textContent = '0'; // Updated for clarity
+                    barExcellent.style.width = '0%';
+                    percentExcellent.textContent = '0%';
+                    barVeryGood.style.width = '0%';
+                    percentVeryGood.textContent = '0%';
+                    barAverage.style.width = '0%';
+                    percentAverage.textContent = '0%';
+                    barPoor.style.width = '0%';
+                    percentPoor.textContent = '0%';
+                    barTerrible.style.width = '0%';
+                    percentTerrible.textContent = '0%';
+                    return;
+                } else {
+                    noReviewsMessage.classList.add('hidden');
+                }
+
+                reviews.forEach(review => {
+                    totalRating += review.rating;
+                    if (ratingCounts[review.rating] !== undefined) {
+                        ratingCounts[review.rating]++;
+                    }
+
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'bg-[#fcfbfb] p-6 rounded-lg shadow-inner text-left relative'; // Added relative for button positioning
+                    const createdAtDate = review.created_at ? new Date(review.created_at).toLocaleDateString() : 'N/A'; // Use created_at from PostgreSQL
+
+                    reviewCard.innerHTML = `
+                        <h4 class="text-xl font-semibold text-[#545120] mb-1">${review.review_title || 'No Title'}</h4>
+                        <div class="text-yellow-500 mb-2">
+                            ${'<i class="fas fa-star"></i>'.repeat(review.rating)}${'<i class="far fa-star"></i>'.repeat(5 - review.rating)}
+                        </div>
+                        <p class="text-gray-700 mb-3">${review.review_text}</p>
+                        <p class="text-gray-600 text-sm">- ${review.reviewer_name} <span class="ml-2 text-xs text-gray-500">${createdAtDate}</span></p>
+                        <button class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400" data-review-id="${review.id}" data-i18n="deleteBtn">
+                            ${translations[currentLang].deleteBtn || 'Delete'}
+                        </button>
+                    `;
+                    // Add event listener to the delete button
+                    reviewCard.querySelector('button').addEventListener('click', function () {
+                        const reviewId = this.dataset.reviewId;
+                        deleteReview(reviewId);
+                    });
+                    reviewsList.appendChild(reviewCard);
+                });
+
+                const avgRating = (totalRating / reviews.length).toFixed(1);
+                overallRatingDisplay.textContent = avgRating;
+                updateStarDisplay('overallStarsDisplay', parseFloat(avgRating));
+                // MODIFIED: Ensure these spans are updated correctly
+                totalReviewsCountSpan.textContent = avgRating; // The "0.0" in "0.0 out of 5 stars"
+                numReviewsSpan.textContent = reviews.length;   // The "0" in "(based on 0 reviews)"
+                // END MODIFIED
+
+
+                // Update bar charts
+                const totalReviews = reviews.length; // Use reviews.length for consistency
+                const updateBar = (barElement, percentElement, count) => {
+                    const percent = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
+                    barElement.style.width = `${percent}%`;
+                    percentElement.textContent = `${percent.toFixed(0)}%`;
+                };
+
+                updateBar(barExcellent, percentExcellent, ratingCounts[5]);
+                updateBar(barVeryGood, percentVeryGood, ratingCounts[4]);
+                updateBar(barAverage, percentAverage, ratingCounts[3]);
+                updateBar(barPoor, percentPoor, ratingCounts[2]);
+                updateBar(barTerrible, percentTerrible, ratingCounts[1]);
+            }
+
+            // Function to update content based on current language
+            function updateContent() {
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[currentLang] && translations[currentLang][key]) {
+                        // MODIFIED: Removed special handling for 'outOfFiveStarsText'
+                        // Now all data-i18n elements are updated with their simple text content
+                        element.textContent = translations[currentLang][key];
+                    }
+                });
+                // The save booking picture label is now rendered dynamically inside the list item, so this line is removed.
+                // document.getElementById('saveBookingPictureLabel').innerHTML = `<i class="fas fa-download mr-2"></i> ${translations[currentLang].saveBookingPictureLabel || 'Save Booking Picture'}`;
+
+
+                // Re-render services and bookings to apply translations to dynamically generated content
+                renderServices();
+                // Only render bookings if the section is currently visible to avoid unnecessary API calls
+                if (!document.getElementById('viewBookingsSection').classList.contains('hidden')) {
+                    renderBookings();
+                }
+                // If on testimonials section, re-render it as well
+                if (!document.getElementById('testimonialsSection').classList.contains('hidden')) {
+                    renderTestimonials(); // This will now update the numbers and percentages correctly
+                }
+                // If on detail section, re-render the selected service detail
+                if (!document.getElementById('detailSection').classList.contains('hidden') && selectedService) {
+                    showServiceDetail(selectedService);
+                }
+            }
+
+
+            // Event listeners for navigation
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function (event) {
+                    // Check if it's a mobile submenu toggle
+                    if (this.parentElement.classList.contains('flex') && this.parentElement.querySelector('.mobile-dropdown-toggle')) {
+                        // This specific 'Services' or 'About Us' link in mobile should not trigger a section change directly
+                        // The toggleMobileSubmenu is attached to the parent div
+                        return;
+                    }
+
+                    event.preventDefault(); // Prevent default anchor behavior
+                    const sectionId = this.getAttribute('href').substring(1);
+                    showSection(sectionId);
+                });
+            });
+
+            // Event listener for "Explore Services" button on Hero section
+            document.querySelector('#homeSection button').addEventListener('click', function () {
+                showSection('servicesSection');
+            });
+
+            // Back button from Service Detail to Services
+            document.getElementById('backBtn').addEventListener('click', () => {
+                showSection('servicesSection');
+            });
+
+            // Book Now button from Service Detail to Booking Form
+            document.getElementById('bookNowBtn').addEventListener('click', () => {
+                if (selectedService && selectedDuration) {
+                    // Populate the service name in the booking form with the translated name
+                    document.getElementById('serviceName').value = `${selectedService['name_' + currentLang] || selectedService.name_en} (${selectedDuration.duration})`;
+
+                    const therapyNameGroup = document.getElementById('therapyNameGroup');
+                    const therapyNameSelect = document.getElementById('therapyName');
+                    therapyNameSelect.innerHTML = ''; // Clear previous options
+
+                    // If the selected service has therapy names, show the dropdown and populate it
+                    if (selectedService.therapyNames && selectedService.therapyNames.length > 0) {
+                        selectedService.therapyNames.forEach(therapy => {
+                            const option = document.createElement('option');
+                            option.value = therapy;
+                            option.textContent = therapy;
+                            therapyNameSelect.appendChild(option);
+                        });
+                        // Set the selected therapy name in the booking form to the first option by default
+                        // or to the previously selected one if `selectedTherapyName` was set.
+                        selectedTherapyName = therapyNameSelect.value; // Default to the first option in the dropdown
+                        therapyNameGroup.classList.remove('hidden'); // Make the therapy selection visible
+                    } else {
+                        // Hide the therapy name dropdown if the service does not have specific therapy names
+                        therapyNameGroup.classList.add('hidden');
+                        selectedTherapyName = null; // Ensure no therapy name is carried over
+                    }
+
+                    showSection('bookingFormSection');
+                } else if (selectedService) {
+                    showAlert(translations[currentLang].selectDurationAlert || 'Please select a duration for the service.');
+                } else {
+                    showAlert(translations[currentLang].selectServiceFirstAlert || 'Please select a service first.');
+                    showSection('servicesSection');
+                }
+            });
+
+            // Back button from Booking Form to Service Detail (if selected) or Services
+            document.getElementById('backFromBookingBtn').addEventListener('click', () => {
+                if (selectedService) {
+                    showServiceDetail(selectedService);
+                } else {
+                    showSection('servicesSection');
+                }
+            });
+
+            // Back to Home button from View Bookings
+            document.getElementById('backToHomeBtn').addEventListener('click', () => {
+                showSection('homeSection');
+            });
+
+            // Initial render of services when the page loads
+            renderServices();
+            // Bookings will be rendered when showSection('viewBookingsSection') is explicitly called.
+
+            // Set min datetime for booking form to prevent past bookings
+            const datetimeInput = document.getElementById('datetime');
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 5); // Allow bookings at least 5 minutes from now
+            const minDatetime = now.toISOString().slice(0, 16);
+            datetimeInput.min = minDatetime;
+
+
+            // Language selector event listeners
+            const languageSelectDesktop = document.getElementById('languageSelectDesktop');
+            const languageSelectMobile = document.getElementById('languageSelectMobile');
+
+            languageSelectDesktop.value = currentLang; // Set initial value
+            languageSelectMobile.value = currentLang; // Set initial value for mobile
+
+            languageSelectDesktop.addEventListener('change', (event) => {
+                currentLang = event.target.value;
+                localStorage.setItem('currentLang', currentLang); // Save preference
+                languageSelectMobile.value = currentLang; // Sync mobile dropdown
+                updateContent(); // Update all text
+            });
+
+            languageSelectMobile.addEventListener('change', (event) => {
+                currentLang = event.target.value;
+                localStorage.setItem('currentLang', currentLang); // Save preference
+                languageSelectDesktop.value = currentLang; // Sync desktop dropdown
+                updateContent(); // Update all text
+            });
+
+            // Initial content update based on saved or default language
+            updateContent();
+
+            // Review Form Submission
+            document.getElementById('reviewForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const reviewerName = document.getElementById('reviewerName').value;
+                const reviewerEmail = document.getElementById('reviewerEmail').value;
+                const reviewTitle = document.getElementById('reviewTitle').value;
+                const reviewText = document.getElementById('reviewText').value;
+                const rating = document.querySelector('input[name="rating"]:checked');
+                const genuineOpinion = document.getElementById('genuineOpinion').checked;
+
+                if (!rating) {
+                    showAlert("Please select a star rating.");
+                    return;
+                }
+                if (!genuineOpinion) {
+                    showAlert("Please confirm that this review is based on your genuine opinion.");
+                    return;
+                }
+
+                const reviewData = {
+                    reviewerName,
+                    reviewerEmail,
+                    reviewTitle,
+                    reviewText,
+                    rating: parseInt(rating.value),
+                    genuineOpinion,
+                };
+
+                addReview(reviewData);
+            });
+        });
+        // New code to set min/max time and validate on change
+        const datetimeInput = document.getElementById('datetime');
+        if (datetimeInput) {
+            datetimeInput.addEventListener('change', function () {
+                const selected = new Date(this.value);
+                const hour = selected.getHours();
+                const minute = selected.getMinutes();
+
+                // Only block times after 10:15 PM
+                if (hour > 22 || (hour === 22 && minute > 15)) {
+                    showAlert("⛔ Booking is allowed only until 10:00 PM.");
+                    this.value = '';
+                }
+            });
+        }
+
+    </script>
+
+
+</body>
+
+</html>
